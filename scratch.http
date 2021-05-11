@@ -1,0 +1,6 @@
+GET https://www.googleapis.com/analytics/v3/data/ga
+  ?ids=ga:12345
+  &start-date=2008-10-01
+  &end-date=2008-10-31
+  &metrics=ga:sessions,ga:bounces
+Authorization: Bearer 1//0dmQZ6ATbwGtMCgYIARAAGA0SNwF-L9Ir6SFjUMGc_134-AJSiXTtejt0P8NW2pRqcgTVBqvwjcfWf8-eSSFKxMjjVCotPVedvqQ
