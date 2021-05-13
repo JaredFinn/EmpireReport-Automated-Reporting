@@ -11,6 +11,9 @@ from oauth2client import tools
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
 CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
 VIEW_ID = '115062057'
+CLICK_VIEWS = []
+rgx=input("Enter Story: ")
+all='/'
 
 
 def initialize_analyticsreporting():
@@ -48,22 +51,21 @@ def initialize_analyticsreporting():
 def get_report(analytics):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
 
-  rgx='/avangrid-networks-proposes-excelsior-connect-to-power-new-yorks-future/'
-  all='/'
+  
 
   return analytics.reports().batchGet(
       body={
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-11', 'endDate': '2021-05-11'}],
+          'dateRanges': [{'startDate': '2021-05-12', 'endDate': '2021-05-13'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-11', 'endDate': '2021-05-11'}],
+          'dateRanges': [{'startDate': '2021-05-12', 'endDate': '2021-05-13'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={all}',
@@ -75,7 +77,8 @@ def get_report(analytics):
 
 def print_response(response):
   """Parses and prints the Analytics Reporting API V4 response"""
-
+  print()
+  print("API DATA: \n")
   for report in response.get('reports', []):
     columnHeader = report.get('columnHeader', {})
     dimensionHeaders = columnHeader.get('dimensions', [])
@@ -92,8 +95,17 @@ def print_response(response):
       for i, values in enumerate(dateRangeValues):
         print('Date range (' + str(i) + ')')
         for metricHeader, value in zip(metricHeaders, values.get('values')):
-          print( metricHeader.get('name') + ': ' + value)
-          
+          print( metricHeader.get('name') + ': ' + value+"\n\n")
+          CLICK_VIEWS.append(value)
+
+  print("EMAIL PREVIEW:\n")
+
+  print("Recipient,\n")
+  print("Your Story " + rgx + " is doing great!\n" + "It generated " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.")
+  print("Thank You!\n")
+  print("Best Regards,")
+  print("JP")
+
 
 def main():
 
