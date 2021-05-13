@@ -2,7 +2,7 @@
 
 import argparse
 
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 import httplib2
 from oauth2client import client
 from oauth2client import file
@@ -47,17 +47,31 @@ def initialize_analyticsreporting():
 
 def get_report(analytics):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
+
+  rgx='/avangrid-networks-proposes-excelsior-connect-to-power-new-yorks-future/'
+  all='/'
+
   return analytics.reports().batchGet(
       body={
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '7daysAgo', 'endDate': 'today'}],
-          'metrics': [{'expression': 'ga:sessions'}]
+          'dateRanges': [{'startDate': '2021-05-11', 'endDate': '2021-05-11'}],
+          'dimensions': [{'name': 'ga:pagePath'}],
+          'metrics': [{'expression': 'ga:pageviews'}],
+          'filtersExpression':f'ga:pagePath=={rgx}',
+        },
+        {
+          'viewId': VIEW_ID,
+          'dateRanges': [{'startDate': '2021-05-11', 'endDate': '2021-05-11'}],
+          'dimensions': [{'name': 'ga:pagePath'}],
+          'metrics': [{'expression': 'ga:pageviews'}],
+          'filtersExpression':f'ga:pagePath=={all}',
         }]
       }
   ).execute()
 
+  
 
 def print_response(response):
   """Parses and prints the Analytics Reporting API V4 response"""
@@ -73,13 +87,13 @@ def print_response(response):
       dateRangeValues = row.get('metrics', [])
 
       for header, dimension in zip(dimensionHeaders, dimensions):
-        print (header + ': ' + dimension)
+        print(header + ': ' + dimension)
 
       for i, values in enumerate(dateRangeValues):
         print('Date range (' + str(i) + ')')
         for metricHeader, value in zip(metricHeaders, values.get('values')):
-          print (metricHeader.get('name') + ': ' + value)
-
+          print( metricHeader.get('name') + ': ' + value)
+          
 
 def main():
 
