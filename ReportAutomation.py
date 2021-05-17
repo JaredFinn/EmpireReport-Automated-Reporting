@@ -1,5 +1,3 @@
-"""Hello Analytics Reporting API V4."""
-
 import argparse
 
 from googleapiclient.discovery import build
@@ -12,7 +10,7 @@ SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
 CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
 VIEW_ID = '115062057'
 CLICK_VIEWS = []
-rgx=input("Enter Story: ")
+rgx = input("Enter Story: ")
 all='/'
 
 
@@ -48,24 +46,21 @@ def initialize_analyticsreporting():
 
   return analytics
 
-def get_report(analytics):
+def get_reportCurrentStory(analytics):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
-
-  
-
   return analytics.reports().batchGet(
       body={
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-16', 'endDate': '2021-05-16'}],
+          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-16', 'endDate': '2021-05-16'}],
+          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={all}',
@@ -73,7 +68,50 @@ def get_report(analytics):
       }
   ).execute()
 
-  
+def get_reportPastStory(analytics):
+  # Use the Analytics Service Object to query the Analytics Reporting API V4.
+  return analytics.reports().batchGet(
+      body={
+        'reportRequests': [
+        {
+          'viewId': VIEW_ID,
+          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
+          'dimensions': [{'name': 'ga:pagePath'}],
+          'metrics': [{'expression': 'ga:pageviews'}],
+          'filtersExpression':f'ga:pagePath=={rgx}',
+        },
+        {
+          'viewId': VIEW_ID,
+          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
+          'dimensions': [{'name': 'ga:pagePath'}],
+          'metrics': [{'expression': 'ga:pageviews'}],
+          'filtersExpression':f'ga:pagePath=={all}',
+        }]
+      }
+  ).execute()
+
+def get_reportAds(analytics):
+  # Use the Analytics Service Object to query the Analytics Reporting API V4.
+  return analytics.reports().batchGet(
+      body={
+        'reportRequests': [
+        {
+          'viewId': VIEW_ID,
+          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
+          'dimensions': [{'name': 'ga:pagePath'}],
+          'metrics': [{'expression': 'ga:pageviews'}],
+          'filtersExpression':f'ga:pagePath=={rgx}',
+        },
+        {
+          'viewId': VIEW_ID,
+          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
+          'dimensions': [{'name': 'ga:pagePath'}],
+          'metrics': [{'expression': 'ga:pageviews'}],
+          'filtersExpression':f'ga:pagePath=={all}',
+        }]
+      }
+  ).execute()
+
 
 def print_response(response):
   """Parses and prints the Analytics Reporting API V4 response"""
@@ -106,12 +144,29 @@ def print_response(response):
   print("Best Regards,")
   print("JP")
 
+def reportChoice():
+  print("Choose the number for which report type: \n")
+  print("(1) Current Story")
+  print("(2) Past Story")
+  print("(3) Ad Report")
+  type = input()
+  if(type == 1):
+    analytics = initialize_analyticsreporting()
+    response = get_reportCurrentStory(analytics, rgx)
+    print_response(response)
+  elif(type == 2):
+    analytics = initialize_analyticsreporting()
+    response = get_reportPastStory(analytics)
+    print_response(response)
+  else:
+    analytics = initialize_analyticsreporting()
+    response = get_reportAds(analytics)
+    print_response(response)
+
 
 def main():
-
-  analytics = initialize_analyticsreporting()
-  response = get_report(analytics)
-  print_response(response)
+  reportChoice()
+  
 
 if __name__ == '__main__':
   main()
