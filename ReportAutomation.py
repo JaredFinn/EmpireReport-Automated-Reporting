@@ -58,14 +58,14 @@ def get_report(analytics):
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-12', 'endDate': '2021-05-13'}],
+          'dateRanges': [{'startDate': '2021-05-16', 'endDate': '2021-05-16'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-12', 'endDate': '2021-05-13'}],
+          'dateRanges': [{'startDate': '2021-05-16', 'endDate': '2021-05-16'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={all}',
