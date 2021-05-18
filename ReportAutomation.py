@@ -1,4 +1,7 @@
 import argparse
+import tkinter as tk
+from tkinter import *
+from tkinter.ttk import Combobox
 
 from googleapiclient.discovery import build
 import httplib2
@@ -53,14 +56,14 @@ def get_reportCurrentStory(analytics):
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
+          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
+          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={all}',
