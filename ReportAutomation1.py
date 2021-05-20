@@ -35,19 +35,17 @@ email.pack(padx=40, pady=30)
 data=("Current Story", "Past Story", "Ad Report")
 cb=Combobox(root, values=data)
 cb.place(x=250, y=100)
+ 
+all = '/'  
 
 reportLabel=Label(root, text="Select Report Type", bg="white")
 reportLabel.place(x=135, y=100)
 storyLabel= Label(root, text="Enter Story", bg="white")
 storyLabel.place(x=135, y=150)
 
-storyInput = Entry(root, width=30)
+storyInput = Entry(root)
 storyInput.place(x=210, y=150)
 
-root.mainloop()
-
-rgx = input("Enter Story: ")
-all='/'
 
 def initialize_analyticsreporting():
   """Initializes the analyticsreporting service object.
@@ -81,7 +79,7 @@ def initialize_analyticsreporting():
 
   return analytics
 
-def get_reportCurrentStory(analytics):
+def get_reportCurrentStory(analytics, rgx):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
   return analytics.reports().batchGet(
       body={
@@ -103,21 +101,21 @@ def get_reportCurrentStory(analytics):
       }
   ).execute()
 
-def get_reportPastStory(analytics):
+def get_reportPastStory(analytics, rgx):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
   return analytics.reports().batchGet(
       body={
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
+          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
+          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
           'filtersExpression':f'ga:pagePath=={all}',
@@ -125,7 +123,7 @@ def get_reportPastStory(analytics):
       }
   ).execute()
 
-def get_reportAds(analytics):
+def get_reportAds(analytics, rgx):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
   return analytics.reports().batchGet(
       body={
@@ -148,8 +146,9 @@ def get_reportAds(analytics):
   ).execute()
 
 
-def print_response(response):
+def print_response(response, rgx):
   """Parses and prints the Analytics Reporting API V4 response"""
+  email.delete(1.0, END)
   print()
   print("API DATA: \n")
   for report in response.get('reports', []):
@@ -171,37 +170,37 @@ def print_response(response):
           print( metricHeader.get('name') + ': ' + value+"\n\n")
           CLICK_VIEWS.append(value)
 
-  print("EMAIL PREVIEW:\n")
+  email.insert(END, "Recipient,\n\n")
+  email.insert(END, "Your Story " + rgx + " is doing great!\n" + "\nIt generated " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.\n\n")
+  email.insert(END, "Thank You!\n")
+  email.insert(END, "Best Regards,\n")
+  email.insert(END, "JP")
 
-  print("Recipient,\n")
-  print("Your Story " + rgx + " is doing great!\n" + "It generated " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.")
-  print("Thank You!\n")
-  print("Best Regards,")
-  print("JP")
-
-def reportChoice():
-  print("Choose the number for which report type: \n")
-  print("(1) Current Story")
-  print("(2) Past Story")
-  print("(3) Ad Report")
-  type = input()
-  if(type == 1):
+def report():
+  type=cb.get()
+  rgx=storyInput.get()
+  #story = Label(root, text=type)
+  #storyURL = Label(root, text=rgx)
+  #story.place(x=300, y=200)
+  #storyURL.place(x=300, y=220)
+  if(type == "Current Story"):
     analytics = initialize_analyticsreporting()
     response = get_reportCurrentStory(analytics, rgx)
-    print_response(response)
-  elif(type == 2):
+    print_response(response, rgx)
+  elif(type == "Past Story"):
     analytics = initialize_analyticsreporting()
-    response = get_reportPastStory(analytics)
-    print_response(response)
+    response = get_reportPastStory(analytics, rgx)
+    print_response(response, rgx)
   else:
     analytics = initialize_analyticsreporting()
-    response = get_reportAds(analytics)
-    print_response(response)
+    response = get_reportAds(analytics, rgx)
+    print_response(response, rgx)
 
 
-def main():
-  reportChoice()
-  
+button1 = tk.Button(text='Report', command=report)
+button1.place(x=210, y=200)
 
-if __name__ == '__main__':
-  main()
+
+root.mainloop()
+
+
