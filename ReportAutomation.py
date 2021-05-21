@@ -15,7 +15,7 @@ VIEW_ID = '115062057'
 CLICK_VIEWS = []
 
 
-rgx = input("Enter Story: ")
+#rgx = input("Enter Story: ")
 all='/'
 
 def initialize_analyticsreporting():
@@ -58,17 +58,10 @@ def get_reportCurrentStory(analytics):
         {
           'viewId': VIEW_ID,
           'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
+          'dimensions': [{'name': 'ga:pageTitle'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgx}',
         },
-        {
-          'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
-          'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={all}',
-        }]
+        ]
       }
   ).execute()
 
@@ -80,9 +73,9 @@ def get_reportPastStory(analytics):
         {
           'viewId': VIEW_ID,
           'dateRanges': [{'startDate': '2021-04-14', 'endDate': '2021-05-15'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
+          'dimensions': [{'name': 'ga:pageTitle'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgx}',
+          #'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
@@ -102,9 +95,9 @@ def get_reportAds(analytics):
         {
           'viewId': VIEW_ID,
           'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
+          'dimensions': [{'name': 'ga:pageTitle'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgx}',
+          #'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
@@ -143,7 +136,7 @@ def print_response(response):
   print("EMAIL PREVIEW:\n")
 
   print("Recipient,\n")
-  print("Your Story " + rgx + " is doing great!\n" + "It generated " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.")
+  #print("Your Story " + rgx + " is doing great!\n" + "It generated " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.")
   print("Thank You!\n")
   print("Best Regards,")
   print("JP")
@@ -156,7 +149,7 @@ def reportChoice():
   type = input()
   if(type == 1):
     analytics = initialize_analyticsreporting()
-    response = get_reportCurrentStory(analytics, rgx)
+    response = get_reportCurrentStory(analytics)
     print_response(response)
   elif(type == 2):
     analytics = initialize_analyticsreporting()

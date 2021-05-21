@@ -13,6 +13,7 @@ SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
 CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
 VIEW_ID = '115062057'
 CLICK_VIEWS = []
+PAGES = []
 
 
 root = tk.Tk()
@@ -33,6 +34,7 @@ email = Text(emailFrame, bg="grey")
 email.pack(padx=40, pady=30)
 
 data=("Current Story", "Past Story", "Ad Report")
+
 cb=Combobox(root, values=data)
 cb.place(x=250, y=100)
  
@@ -43,8 +45,10 @@ reportLabel.place(x=135, y=100)
 storyLabel= Label(root, text="Enter Story", bg="white")
 storyLabel.place(x=135, y=150)
 
-storyInput = Entry(root)
-storyInput.place(x=210, y=150)
+#storyInput = Entry(root)
+#storyInput.place(x=210, y=150)
+
+
 
 
 def initialize_analyticsreporting():
@@ -79,6 +83,8 @@ def initialize_analyticsreporting():
 
   return analytics
 
+analytics = initialize_analyticsreporting()
+
 def get_reportCurrentStory(analytics, rgx):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
   return analytics.reports().batchGet(
@@ -89,7 +95,7 @@ def get_reportCurrentStory(analytics, rgx):
           'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgx}',
+          'filtersExpression':f'ga:pagePath=={rgxPath}',
         },
         {
           'viewId': VIEW_ID,
@@ -101,47 +107,35 @@ def get_reportCurrentStory(analytics, rgx):
       }
   ).execute()
 
-def get_reportPastStory(analytics, rgx):
+
+
+def getPages(analytics):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
   return analytics.reports().batchGet(
       body={
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
+          'dateRanges': [{'startDate': '2021-04-21', 'endDate': '2021-05-20'}],
+          'dimensions': [{'name': 'ga:pageTitle'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgx}',
         },
-        {
-          'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
-          'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={all}',
-        }]
+        ]
       }
   ).execute()
 
-def get_reportAds(analytics, rgx):
+def getPath(analytics):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
   return analytics.reports().batchGet(
       body={
         'reportRequests': [
         {
           'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
+          'dateRanges': [{'startDate': '2021-04-21', 'endDate': '2021-05-20'}],
+          'dimensions': [{'name': 'ga:pageTitle'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgx}',
         },
-        {
-          'viewId': VIEW_ID,
-          'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
-          'dimensions': [{'name': 'ga:pagePath'}],
-          'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={all}',
-        }]
+        ]
       }
   ).execute()
 
@@ -163,6 +157,7 @@ def print_response(response, rgx):
 
       for header, dimension in zip(dimensionHeaders, dimensions):
         print(header + ': ' + dimension)
+        PAGES.append(dimension)
 
       for i, values in enumerate(dateRangeValues):
         print('Date range (' + str(i) + ')')
@@ -176,9 +171,28 @@ def print_response(response, rgx):
   email.insert(END, "Best Regards,\n")
   email.insert(END, "JP")
 
+def print_titles(response):
+  """Parses and prints the Analytics Reporting API V4 response"""
+  email.delete(1.0, END)
+  print()
+  print("API DATA: \n")
+  for report in response.get('reports', []):
+    columnHeader = report.get('columnHeader', {})
+    dimensionHeaders = columnHeader.get('dimensions', [])
+    metricHeaders = columnHeader.get('metricHeader', {}).get('metricHeaderEntries', [])
+    rows = report.get('data', {}).get('rows', [])
+
+    for row in rows:
+      dimensions = row.get('dimensions', [])
+      dateRangeValues = row.get('metrics', [])
+
+      for header, dimension in zip(dimensionHeaders, dimensions):
+        print(header + ': ' + dimension)
+        PAGES.append(dimension)
+
 def report():
   type=cb.get()
-  rgx=storyInput.get()
+  rgx=pageCb.get()
   #story = Label(root, text=type)
   #storyURL = Label(root, text=rgx)
   #story.place(x=300, y=200)
@@ -187,19 +201,23 @@ def report():
     analytics = initialize_analyticsreporting()
     response = get_reportCurrentStory(analytics, rgx)
     print_response(response, rgx)
-  elif(type == "Past Story"):
-    analytics = initialize_analyticsreporting()
-    response = get_reportPastStory(analytics, rgx)
-    print_response(response, rgx)
-  else:
-    analytics = initialize_analyticsreporting()
-    response = get_reportAds(analytics, rgx)
-    print_response(response, rgx)
+  #elif(type == "Past Story"):
+    #analytics = initialize_analyticsreporting()
+    #response = get_reportPastStory(analytics, rgx)
+    #print_response(response, rgx)
+  #else:
+    #analytics = initialize_analyticsreporting()
+    #response = get_reportAds(analytics, rgx)
+    #print_response(response, rgx)
 
+response = getPages(analytics)
+print_titles(response)
+
+pageCb=Combobox(root, values=PAGES)
+pageCb.place(x=210, y=150)
 
 button1 = tk.Button(text='Report', command=report)
 button1.place(x=210, y=200)
-
 
 root.mainloop()
 
