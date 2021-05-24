@@ -1,7 +1,10 @@
 import argparse
 import tkinter as tk
+from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import Combobox
+
+import excel as excelTab
 
 from googleapiclient.discovery import build
 import httplib2
@@ -25,6 +28,17 @@ canvas.pack()
 frame = tk.Frame(root, bg="white")
 frame.place(relwidth=0.9, relheight=0.4, relx=0.05, rely=0.05)
 
+tabControl = ttk.Notebook(frame)
+
+tab1 = ttk.Frame(tabControl)
+tab2 = ttk.Frame(tabControl)
+
+tabControl.add(tab1, text ='Email Report')
+tabControl.add(tab2, text ='Excel Report')
+tabControl.grid(padx=50)
+tabControl.pack(expand = 1, fill ="both")
+
+
 emailFrame = tk.Frame(root, bg="white")
 emailFrame.place(relwidth=0.9, relheight=0.45, relx=0.05, rely=0.5)
 emailLabel=Label(emailFrame, text="Drafted Email", bg="white")
@@ -35,20 +49,25 @@ email.pack(padx=40, pady=30)
 
 data=("Current Story", "Past Story", "Ad Report")
 
-cb=Combobox(root, values=data)
+cb=Combobox(tab1, values=data)
 cb.place(x=250, y=100)
  
 all = '/'  
 
-reportLabel=Label(root, text="Select Report Type", bg="white")
+#Email Tabs
+reportLabel=Label(tab1, text="Select Report Type", bg="white")
 reportLabel.place(x=135, y=100)
-storyLabel= Label(root, text="Enter Story", bg="white")
+storyLabel= Label(tab1, text="Enter Story", bg="white")
 storyLabel.place(x=135, y=150)
+
+##Excel Tab
+AdvertiserLabel=Label(tab2, text="Advertiser", bg="white")
+AdvertiserLabel.place(x=135, y=100)
+nameInput = Entry(tab2)
+nameInput.place(x=200, y=100)
 
 #storyInput = Entry(root)
 #storyInput.place(x=210, y=150)
-
-
 
 
 def initialize_analyticsreporting():
@@ -95,7 +114,7 @@ def get_reportCurrentStory(analytics, rgx):
           'dateRanges': [{'startDate': '2021-05-17', 'endDate': '2021-05-17'}],
           'dimensions': [{'name': 'ga:pagePath'}],
           'metrics': [{'expression': 'ga:pageviews'}],
-          'filtersExpression':f'ga:pagePath=={rgxPath}',
+          'filtersExpression':f'ga:pagePath=={rgx}',
         },
         {
           'viewId': VIEW_ID,
@@ -210,14 +229,33 @@ def report():
     #response = get_reportAds(analytics, rgx)
     #print_response(response, rgx)
 
+def excelReport():
+  title = nameInput.get()
+  totals = excelTab.createReport(title)
+  email.insert(END, "Recipient,\n\n")
+  email.insert(END, "I hope that you are well!\n")
+  email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + "\n\n")
+  email.insert(END, "Thus-far the banner ads have generated " + str(totals[0]) + " impressions, " + str(totals[1]) + " hovers, and " + str(totals[2]) + " link clicks.")
+  email.insert(END, "Full data report is attached.\n")
+  email.insert(END, "Thank you for working with me on this project!!\n")
+  email.insert(END, "Best Regards,\n")
+  email.insert(END, "JP Miller\n")
+  email.insert(END, "Empire Report\n")
+  email.insert(END, "917-565-3378")
+
+
+
 response = getPages(analytics)
 print_titles(response)
 
-pageCb=Combobox(root, values=PAGES)
+pageCb=Combobox(tab1, values=PAGES)
 pageCb.place(x=210, y=150)
 
-button1 = tk.Button(text='Report', command=report)
-button1.place(x=210, y=200)
+emailBtn = tk.Button(tab1, text='Report', command=report)
+emailBtn.place(x=375, y=150)
+
+excelBtn = tk.Button(tab2, text='Report', command=excelReport)
+excelBtn.place(x=375, y=150)
 
 root.mainloop()
 
