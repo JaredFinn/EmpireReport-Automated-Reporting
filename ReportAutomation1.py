@@ -17,6 +17,34 @@ CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
 VIEW_ID = '115062057'
 CLICK_VIEWS = []
 PAGES = []
+ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dying'
+                  ,'AMERICAN CHEMISTRY COUNCIL', 'American Legal Finance Association', 'American Progressive Plastic Bag Alliance'
+                  ,'API', 'Astorino', 'Avangrid - Arch Street Communications', 'Back to Bowling'
+                  ,'BASK', 'BE FAIR TO DIRECT CARE', 'BERLINROSEN ANTI-FRAUD LAWS', 'Bet on NY'
+                  ,'BLUE COLLAR COALITION', 'BP AMERICAS', 'Building & Construction Trades of Greater New York'
+                  ,'Bull Moose Club', 'Business Council of Westchester', 'Butler Associates'
+                  ,'Cats Round Table', 'CENTRO CROMINAL JUSTICE', 'CENTRO Taxpayers for Affordable New York'
+                  ,'Charter Spectrum', 'child victims act GREENBERG', 'CITIZENS FOR PROGRESS', 'Claudia Tenney for Congress'
+                  ,'Clean Fuels NY Kivvit', 'Coalition for the Homeless', 'Coalition to Help Families (JACK BONNER)'
+                  ,'Common Cause NY', 'Community Pharmacy Association of NYS', 'COMPASSION & CHOICES'
+                  ,'Congressional Candidate', 'Cruelty Free International', 'CUNY', 'CUOMO FOR GOVERNOR'
+                  ,'CWA - BERLINROSEN', 'Dev Site Test By Saad', "DON'T BLOCK NY BUILDING", 'Education Equity Campaign'
+                  ,'Elise Stefanik', 'EMPIRE CITY CASINO', 'Empire Report', 'Erica Video', 'Farm Bureau'
+                  ,'Friends of the BQX', 'Frontier', 'FWD.us', 'GNYHA', 'Google Adwords', 'GSG Congestion Pricing'
+                  ,'GSG Criminal Justice Reform', 'GSG NYABA', 'HANYS', 'House', 'HTC ADAMS IE', 'IPPNY'
+                  ,'JUUL Labs', 'KWATRA', 'Linnea Empire Test', 'Long Island Association', 'Manhattan Chamber of Commerce'
+                  ,'MARATHON', 'MASK UP AMERICA', 'Metropolitan Public Strategies', 'MOLINARO', 'MPAA'
+                  ,'NEW YORK YANKEES', 'New Yorkers for Clean Water and Jobs', 'New Yorkers for Responsible Gaming', 'New Yorkers United for Justice'
+                  ,'NY GAMING ASSOCIATION', 'NY HEALTH ACT', 'NY League of Conservation Voters', 'NY State Industries for the Disabled'
+                  ,'NY STATE WEAR A MASK CAMPAIGN', 'NYC CHARTER SCHOOLS', 'NYS Health Foundation GSG', 'NYSANA Nurse Anesthetists'
+                  ,'NYSCOP L POLITI', 'NYSCOPBA', 'NYSPSP', 'NYSUT', 'NYTHA', 'Ostroff Associates', 'PARTNERSHIP FOR NYC'
+                  ,'PARTNERSHIP FOR SAFE MEDICINE', 'Patrick B. Jenkins & Associates', 'PEF', 'PHRMA', 'Project Guardianship'
+                  ,'psacentral.org', 'QUEENS Chamber of Commerce', 'REALITIES OF SINGLE PAYER', 'REBNY', 'Rebuild NY Now'
+                  ,'Rechler Kivvit', 'Reclaim NY', 'Retail Council', 'SANDS Kivvit', "Saratoga Harness Horseperson's Assocation"
+                  ,'Saratoga Mentoring', 'SEIU', 'Shenker Russo Clark', 'SIEMENS', "Sizmek's services ads", 'SKD FLEXIBLE WORK'
+                  ,'SKD- RESORTS WORLD CASINO', 'SMART APPROACHES TO MARIJUANA', 'Strong Leadership NYC - Eric Adams', 'SUNY Empire State College'
+                  ,'The Airbnb Tax', 'The Brooklyn Hospital Center', 'TRANSPORT WORKERS UNION', 'Trucking Association of New York'
+                  ,'TRUTH ABOUT ORSTED', 'United Way', 'United Way Greater Capital Region', 'VALCOUR WIND ENERGY', 'VINCENZO GARDINO', 'WAMC', 'WESTERN OTB BATAVIA DOWNS']
 
 
 root = tk.Tk()
@@ -48,6 +76,7 @@ email = Text(emailFrame, bg="grey")
 email.pack(padx=40, pady=30)
 
 data=("Current Story", "Past Story", "Ad Report")
+ads=ADPROGRAMS
 
 cb=Combobox(tab1, values=data)
 cb.place(x=250, y=100)
@@ -63,7 +92,7 @@ storyLabel.place(x=135, y=150)
 ##Excel Tab
 AdvertiserLabel=Label(tab2, text="Advertiser", bg="white")
 AdvertiserLabel.place(x=135, y=100)
-nameInput = Entry(tab2)
+nameInput = Combobox(tab2, values=ads)
 nameInput.place(x=200, y=100)
 
 #storyInput = Entry(root)
@@ -230,14 +259,15 @@ def report():
     #print_response(response, rgx)
 
 def excelReport():
+  email.delete(1.0, END)
   title = nameInput.get()
   totals = excelTab.createReport(title)
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + "\n\n")
-  email.insert(END, "Thus-far the banner ads have generated " + str(totals[0]) + " impressions, " + str(totals[1]) + " hovers, and " + str(totals[2]) + " link clicks.")
-  email.insert(END, "Full data report is attached.\n")
-  email.insert(END, "Thank you for working with me on this project!!\n")
+  email.insert(END, "Thus-far the banner ads have generated " + str(totals[0]) + " impressions, " + str(totals[1]) + " hovers, and " + str(totals[2]) + " link clicks.\n")
+  email.insert(END, "Full data report is attached.\n\n")
+  email.insert(END, "Thank you for working with me on this project!!\n\n")
   email.insert(END, "Best Regards,\n")
   email.insert(END, "JP Miller\n")
   email.insert(END, "Empire Report\n")
@@ -255,7 +285,7 @@ emailBtn = tk.Button(tab1, text='Report', command=report)
 emailBtn.place(x=375, y=150)
 
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
-excelBtn.place(x=375, y=150)
+excelBtn.place(x=375, y=100)
 
 root.mainloop()
 
