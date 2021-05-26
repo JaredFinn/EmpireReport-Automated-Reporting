@@ -7,6 +7,7 @@ import xlrd
 from datetime import datetime
 import random
 
+
 def createReport(title):
     # Workbook is created
     wb = Workbook()
@@ -75,7 +76,7 @@ def createReport(title):
     sheet1.write(13, 3, xlwt.Formula("SUM(D8:D11)"), style2)
 
     fileName = "{} {}".format(title,date)
-    wb.save(fileName+".xls")
+    wb.save("C:\Jared\EmpireReport\Reports\\" + fileName +".xls")
 
     totalViews = val1+val2+val3+val4
     totalHovers =val5+val6+val7+val8
@@ -84,4 +85,3 @@ def createReport(title):
     totals = [totalViews, totalHovers, totalClicks]
 
     return totals
-

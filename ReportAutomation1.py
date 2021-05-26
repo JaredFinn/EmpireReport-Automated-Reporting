@@ -3,6 +3,8 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import Combobox
+from tkinter import *
+from TkinterDnD2 import *
 
 import excel as excelTab
 
@@ -11,6 +13,7 @@ import httplib2
 from oauth2client import client
 from oauth2client import file
 from oauth2client import tools
+
 
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
 CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
@@ -98,6 +101,17 @@ nameInput.place(x=200, y=100)
 #storyInput = Entry(root)
 #storyInput.place(x=210, y=150)
 
+def drop(event):
+    entry_sv.set(event.data)
+
+broadcsv = TkinterDnD.Tk()
+entry_sv = StringVar()
+entry_sv.set('Drop Here...')
+entry = Entry(broadcsv, textvar=entry_sv, width=80)
+entry.pack(fill=X, padx=10, pady=10)
+entry.drop_target_register(DND_FILES)
+entry.dnd_bind('<<Drop>>', drop)
+entry.place(x=200, y=150)
 
 def initialize_analyticsreporting():
   """Initializes the analyticsreporting service object.
