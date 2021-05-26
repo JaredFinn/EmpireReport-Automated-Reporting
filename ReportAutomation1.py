@@ -264,7 +264,7 @@ def excelReport():
   totals = excelTab.createReport(title)
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
-  email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + "\n\n")
+  email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + ":\n\n")
   email.insert(END, "Thus-far the banner ads have generated " + str(totals[0]) + " impressions, " + str(totals[1]) + " hovers, and " + str(totals[2]) + " link clicks.\n")
   email.insert(END, "Full data report is attached.\n\n")
   email.insert(END, "Thank you for working with me on this project!!\n\n")
