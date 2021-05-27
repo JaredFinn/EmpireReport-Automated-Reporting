@@ -8,7 +8,7 @@ from datetime import datetime
 import random
 
 
-def createReport(title):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS):
     # Workbook is created
     wb = Workbook()
 
@@ -20,7 +20,6 @@ def createReport(title):
     font.height = 220
     style = xlwt.XFStyle() # Create the Style
     style.font = font # Apply the Font to the Style
-    style.num_format_str = "#,##0"
     style2 = xlwt.XFStyle()
     style2.font = font
     style2.num_format_str = "#,##0"
@@ -35,53 +34,47 @@ def createReport(title):
     sheet1.write(1, 0, ER, style)
 
     sheet1.write(6, 0, "Banner Advertisement", style)
-    sheet1.write(7, 0, "Ad1", style)
-    sheet1.write(8, 0, "Ad2", style)
-    sheet1.write(9, 0, "Ad3", style)
-    sheet1.write(10, 0, "Ad4", style)
-
     sheet1.write(6, 1, "Views", style2)
-    val1 = random.randrange(100, 100000, 17)
-    sheet1.write(7, 1, val1, style2)
-    val2 = random.randrange(100, 100000, 17)
-    sheet1.write(8, 1, val2, style2)
-    val3 = random.randrange(100, 100000, 17)
-    sheet1.write(9, 1, val3, style2)
-    val4 = random.randrange(100, 100000, 17)
-    sheet1.write(10, 1, val4, style2)
-
     sheet1.write(6, 2, "Hovers", style2)
-    val5 = random.randrange(100, 100000, 17)
-    sheet1.write(7, 2, val5, style2)
-    val6 = random.randrange(100, 100000, 17)
-    sheet1.write(8, 2, val6, style2)
-    val7 = random.randrange(100, 100000, 17)
-    sheet1.write(9, 2, val7, style2)
-    val8 = random.randrange(100, 100000, 17)
-    sheet1.write(10, 2, val8, style2)
-
     sheet1.write(6, 3, "Clicks", style2)
-    val9 = random.randrange(100, 100000, 17)
-    sheet1.write(7, 3, val9, style2)
-    val10 = random.randrange(100, 100000, 17)
-    sheet1.write(8, 3, val10, style2)
-    val11 = random.randrange(100, 100000, 17)
-    sheet1.write(9, 3, val11, style2)
-    val12 = random.randrange(100, 100000, 17)
-    sheet1.write(10, 3, val12, style2)
 
-    sheet1.write(13, 0, "TOTAL:", style)
-    sheet1.write(13, 1, xlwt.Formula("SUM(B8:B11)"), style2)
-    sheet1.write(13, 2, xlwt.Formula("SUM(C8:C11)"), style2)
-    sheet1.write(13, 3, xlwt.Formula("SUM(D8:D11)"), style2)
+    totalViews = 0
+    totalHovers = 0
+    totalClicks = 0
 
+    j = 7
+    for i in IMPORTNAMES:
+        sheet1.write(j, 0, i, style)
+        j = j+1
+
+    j = 7
+    for i in IMPORTVIEWS:
+        totalViews += int(i)
+        sheet1.write(j, 1, i, style2)
+        j = j+1
+
+    j = 7
+    for i in IMPORTHOVERS:
+        totalHovers += int(i)
+        sheet1.write(j, 2, i, style2)
+        j = j+1
+
+    j = 7
+    for i in IMPORTCLICKS:
+        totalClicks += int(i)
+        sheet1.write(j, 3, i, style2)
+        j = j+1
+    
+    x = len(IMPORTNAMES)+10
+
+    sheet1.write(x, 0, "TOTAL:", style)
+    sheet1.write(x, 1, xlwt.Formula("SUM(B8:B{})".format(x-3)), style2)
+    sheet1.write(x, 2, xlwt.Formula("SUM(C8:C{})".format(x-3)), style2)
+    sheet1.write(x, 3, xlwt.Formula("SUM(D8:D{})".format(x-3)), style2)
+#
     fileName = "{} {}".format(title,date)
-    wb.save("C:\Jared\EmpireReport\Reports\\5-28Report\\" + fileName +".xls")
-
-    totalViews = val1+val2+val3+val4
-    totalHovers =val5+val6+val7+val8
-    totalClicks =val9+val10+val11+val12
-
+    wb.save("C:\Jared\EmpireReport\Reports\\Automated\\" + fileName +".xls")
+    
     totals = [totalViews, totalHovers, totalClicks]
 
     return totals

@@ -5,7 +5,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import *
 from TkinterDnD2 import *
-import xlrd
+import csv
 
 import excel as excelTab
 
@@ -21,6 +21,10 @@ CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
 VIEW_ID = '115062057'
 CLICK_VIEWS = []
 PAGES = []
+IMPORTNAMES = []
+IMPORTVIEWS = []
+IMPORTHOVERS = []
+IMPORTCLICKS = []
 ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dying'
                   ,'AMERICAN CHEMISTRY COUNCIL', 'American Legal Finance Association', 'American Progressive Plastic Bag Alliance'
                   ,'API', 'Astorino', 'Avangrid - Arch Street Communications', 'Back to Bowling'
@@ -273,12 +277,12 @@ def report():
 ##method to create excel file and save it in location specified in excel.py
 ##creates total values to use for email draft
 def excelReport():
-  entry_sv.set(entry_sv.get()[0:-1])
-  entry_sv.set(entry_sv.get()[1:])
+  #entry_sv.set(entry_sv.get()[0:-1])
+  #entry_sv.set(entry_sv.get()[1:])
   importData()
   email.delete(1.0, END)
   title = nameInput.get()
-  totals = excelTab.createReport(title)
+  totals = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS)
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + ":\n\n")
@@ -291,10 +295,18 @@ def excelReport():
   email.insert(END, "917-565-3378")
 
 def importData():
-  workbook = xlrd.open_workbook(entry_sv.get())
-  worksheet = workbook.sheet_by_index(0)
-  print(worksheet.cell(7, 1).value)
-
+  with open(entry_sv.get(), 'r') as file:
+    reader = csv.reader(file)
+    m = 0
+    for row in reader:
+      if m == 0:
+        m = m+1
+        continue
+      if row[1] != str(0):
+        IMPORTNAMES.append(row[0])
+        IMPORTVIEWS.append(row[1])
+        IMPORTHOVERS.append(row[2])
+        IMPORTCLICKS.append(row[3])
 
 response = getPages(analytics)
 print_titles(response)
