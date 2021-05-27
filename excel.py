@@ -76,7 +76,7 @@ def createReport(title):
     sheet1.write(13, 3, xlwt.Formula("SUM(D8:D11)"), style2)
 
     fileName = "{} {}".format(title,date)
-    wb.save("C:\Jared\EmpireReport\Reports\\" + fileName +".xls")
+    wb.save("C:\Jared\EmpireReport\Reports\\5-28Report\\" + fileName +".xls")
 
     totalViews = val1+val2+val3+val4
     totalHovers =val5+val6+val7+val8

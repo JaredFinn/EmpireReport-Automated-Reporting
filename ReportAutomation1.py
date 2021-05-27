@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter.ttk import Combobox
 from tkinter import *
 from TkinterDnD2 import *
+import xlrd
 
 import excel as excelTab
 
@@ -50,7 +51,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'TRUTH ABOUT ORSTED', 'United Way', 'United Way Greater Capital Region', 'VALCOUR WIND ENERGY', 'VINCENZO GARDINO', 'WAMC', 'WESTERN OTB BATAVIA DOWNS']
 
 
-root = tk.Tk()
+root = TkinterDnD.Tk()
 root.title("Report Automation")
 
 canvas = tk.Canvas(root, height=600, width= 600, bg="#4a98f0")
@@ -102,16 +103,17 @@ nameInput.place(x=200, y=100)
 #storyInput.place(x=210, y=150)
 
 def drop(event):
-    entry_sv.set(event.data)
+        entry_sv.set(event.data)
 
-broadcsv = TkinterDnD.Tk()
+
 entry_sv = StringVar()
 entry_sv.set('Drop Here...')
-entry = Entry(broadcsv, textvar=entry_sv, width=80)
-entry.pack(fill=X, padx=10, pady=10)
+entry = Entry(tab2, textvar=entry_sv, width=80)
+entry.pack(fill=X, padx=40, pady=50)
 entry.drop_target_register(DND_FILES)
 entry.dnd_bind('<<Drop>>', drop)
-entry.place(x=200, y=150)
+
+
 
 def initialize_analyticsreporting():
   """Initializes the analyticsreporting service object.
@@ -241,24 +243,19 @@ def print_titles(response):
   for report in response.get('reports', []):
     columnHeader = report.get('columnHeader', {})
     dimensionHeaders = columnHeader.get('dimensions', [])
-    metricHeaders = columnHeader.get('metricHeader', {}).get('metricHeaderEntries', [])
     rows = report.get('data', {}).get('rows', [])
 
     for row in rows:
       dimensions = row.get('dimensions', [])
-      dateRangeValues = row.get('metrics', [])
 
       for header, dimension in zip(dimensionHeaders, dimensions):
         print(header + ': ' + dimension)
         PAGES.append(dimension)
 
+
 def report():
   type=cb.get()
   rgx=pageCb.get()
-  #story = Label(root, text=type)
-  #storyURL = Label(root, text=rgx)
-  #story.place(x=300, y=200)
-  #storyURL.place(x=300, y=220)
   if(type == "Current Story"):
     analytics = initialize_analyticsreporting()
     response = get_reportCurrentStory(analytics, rgx)
@@ -272,7 +269,13 @@ def report():
     #response = get_reportAds(analytics, rgx)
     #print_response(response, rgx)
 
+
+##method to create excel file and save it in location specified in excel.py
+##creates total values to use for email draft
 def excelReport():
+  entry_sv.set(entry_sv.get()[0:-1])
+  entry_sv.set(entry_sv.get()[1:])
+  importData()
   email.delete(1.0, END)
   title = nameInput.get()
   totals = excelTab.createReport(title)
@@ -287,6 +290,10 @@ def excelReport():
   email.insert(END, "Empire Report\n")
   email.insert(END, "917-565-3378")
 
+def importData():
+  workbook = xlrd.open_workbook(entry_sv.get())
+  worksheet = workbook.sheet_by_index(0)
+  print(worksheet.cell(7, 1).value)
 
 
 response = getPages(analytics)
@@ -300,6 +307,7 @@ emailBtn.place(x=375, y=150)
 
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
 excelBtn.place(x=375, y=100)
+
 
 root.mainloop()
 
