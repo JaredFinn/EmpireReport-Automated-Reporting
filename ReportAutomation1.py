@@ -98,10 +98,21 @@ storyLabel= Label(tab1, text="Enter Story", bg="white")
 storyLabel.place(x=135, y=150)
 
 ##Excel Tab
-AdvertiserLabel=Label(tab2, text="Advertiser", bg="white")
+AdvertiserLabel=Label(tab2, text="Program", bg="white")
 AdvertiserLabel.place(x=135, y=100)
 nameInput = Combobox(tab2, values=ads)
 nameInput.place(x=200, y=100)
+
+
+emailVar = BooleanVar()
+emailCheck = Checkbutton(tab2, text="Email", variable=emailVar)
+emailCheck.place(x=150, y=150)
+linkVar = BooleanVar()
+linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
+linkCheck.place(x=215, y=150)
+tweetVar = BooleanVar()
+tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
+tweetCheck.place(x=330, y=150)
 
 #storyInput = Entry(root)
 #storyInput.place(x=210, y=150)
@@ -116,7 +127,6 @@ entry = Entry(tab2, textvar=entry_sv, width=80)
 entry.pack(fill=X, padx=40, pady=50)
 entry.drop_target_register(DND_FILES)
 entry.dnd_bind('<<Drop>>', drop)
-
 
 
 def initialize_analyticsreporting():
@@ -234,7 +244,7 @@ def print_response(response, rgx):
           CLICK_VIEWS.append(value)
 
   email.insert(END, "Recipient,\n\n")
-  email.insert(END, "Your Story " + rgx + " is doing great!\n" + "\nIt generated " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.\n\n")
+  email.insert(END, "Your Story " + rgx + " is doing great!\n" + "\nIt generated a total of " + str(CLICK_VIEWS[0]) + " link clicks and " + str(CLICK_VIEWS[1]) + " impressions.\nScreenshots from google analytics attached.\n\n")
   email.insert(END, "Thank You!\n")
   email.insert(END, "Best Regards,\n")
   email.insert(END, "JP")
@@ -277,12 +287,19 @@ def report():
 ##method to create excel file and save it in location specified in excel.py
 ##creates total values to use for email draft
 def excelReport():
+  IMPORTNAMES.clear()
+  IMPORTVIEWS.clear()
+  IMPORTHOVERS.clear()
+  IMPORTCLICKS.clear()
   #entry_sv.set(entry_sv.get()[0:-1])
   #entry_sv.set(entry_sv.get()[1:])
   importData()
+  addEmail = emailVar.get()
+  addLink = linkVar.get()
+  addTweets = tweetVar.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  totals = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS)
+  totals = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets)
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + ":\n\n")
@@ -303,10 +320,11 @@ def importData():
         m = m+1
         continue
       if row[1] != str(0):
-        IMPORTNAMES.append(row[0])
-        IMPORTVIEWS.append(row[1])
-        IMPORTHOVERS.append(row[2])
-        IMPORTCLICKS.append(row[3])
+          IMPORTNAMES.append(row[0])
+          IMPORTVIEWS.append(row[1])
+          IMPORTHOVERS.append(row[2])
+          IMPORTCLICKS.append(row[3])
+
 
 response = getPages(analytics)
 print_titles(response)
@@ -320,7 +338,4 @@ emailBtn.place(x=375, y=150)
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
 excelBtn.place(x=375, y=100)
 
-
 root.mainloop()
-
-
