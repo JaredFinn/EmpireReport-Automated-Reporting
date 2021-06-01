@@ -73,7 +73,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS):
     sheet1.write(x, 3, xlwt.Formula("SUM(D8:D{})".format(x-3)), style2)
 #
     fileName = "{} {}".format(title,date)
-    wb.save("C:\Jared\EmpireReport\Reports\\Automated\\" + fileName +".xls")
+    wb.save("C:\Jared\EmpireReport\Reports\\6-1Reports\\" + fileName +".xls")
     
     totals = [totalViews, totalHovers, totalClicks]
 
