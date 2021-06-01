@@ -27,7 +27,7 @@ IMPORTHOVERS = []
 IMPORTCLICKS = []
 ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dying'
                   ,'AMERICAN CHEMISTRY COUNCIL', 'American Legal Finance Association', 'American Progressive Plastic Bag Alliance'
-                  ,'API', 'Astorino', 'Avangrid - Arch Street Communications', 'Back to Bowling'
+                  ,'API', 'ASPCA', 'Astorino', 'Avangrid - Arch Street Communications', 'Back to Bowling'
                   ,'BASK', 'BE FAIR TO DIRECT CARE', 'BERLINROSEN ANTI-FRAUD LAWS', 'Bet on NY'
                   ,'BLUE COLLAR COALITION', 'BP AMERICAS', 'Building & Construction Trades of Greater New York'
                   ,'Bull Moose Club', 'Business Council of Westchester', 'Butler Associates'
