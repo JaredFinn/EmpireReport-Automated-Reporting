@@ -114,9 +114,6 @@ tweetVar = BooleanVar()
 tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
 tweetCheck.place(x=330, y=150)
 
-#storyInput = Entry(root)
-#storyInput.place(x=210, y=150)
-
 def drop(event):
         entry_sv.set(event.data)
 
@@ -300,10 +297,14 @@ def excelReport():
   email.delete(1.0, END)
   title = nameInput.get()
   totals = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets)
+  totalsFromatted1 = '{:,.0f}'.format(totals[0])
+  totalsFromatted2 = '{:,.0f}'.format(totals[1])
+  totalsFromatted3 = '{:,.0f}'.format(totals[2])
+
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + ":\n\n")
-  email.insert(END, "Thus-far the banner ads have generated " + str(totals[0]) + " impressions, " + str(totals[1]) + " hovers, and " + str(totals[2]) + " link clicks.\n")
+  email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
   email.insert(END, "Full data report is attached.\n\n")
   email.insert(END, "Thank you for working with me on this project!!\n\n")
   email.insert(END, "Best Regards,\n")

@@ -68,22 +68,30 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
         sheet1.write(j, 3, i, style2)
         j = j+1
     
-    x = len(IMPORTNAMES)+8
+    x = len(IMPORTNAMES)+6
 
-    sheet1.write(x, 0, "TOTAL:", style)
-    sheet1.write(x, 1, xlwt.Formula("SUM(B8:B{})".format(x-3)), style2)
-    sheet1.write(x, 2, xlwt.Formula("SUM(C8:C{})".format(x-3)), style2)
-    sheet1.write(x, 3, xlwt.Formula("SUM(D8:D{})".format(x-3)), style2)
+    if(addEmail == True | addLink == True | addTweets == True):
+        sheet1.write(x, 0, "SUBTOTAL:", style)
+    else:
+        sheet1.write(x+1, 0, "TOTAL:", style)
 
+    sheet1.write(x, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
+    sheet1.write(x, 2, xlwt.Formula("SUM(C7:C{})".format(x)), style2)
+    sheet1.write(x, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
+
+    x = x +1
     if(addEmail == True):
-        addEmailToSheet(sheet1, style, style2, x)
-        x = len(IMPORTNAMES)+8
+        x = addEmailToSheet(sheet1, style, style2, x)
     if(addLink == True):
-        addLinkToSheet(sheet1, style, style2, x)
-        x = len(IMPORTNAMES)+8
+        x = addLinkToSheet(sheet1, style, style2, x)
     if(addTweets == True):
-        addTweetsToSheet(sheet1, style, style2, x)
-        x = len(IMPORTNAMES)+8
+        x = addTweetsToSheet(sheet1, style, style2, x)
+
+    sheet1.write(x+3, 0, "GRAND TOTAL:", style)
+    sheet1.write(x+3, 1, 0, style2)
+    sheet1.write(x+3, 2, 0, style2)
+    sheet1.write(x+3, 3, 0, style2)
+
 
     fileName = "{} {}".format(title,date)
     wb.save("C:\Jared\EmpireReport\Reports\\Automated\\" + fileName +".xls")
@@ -117,65 +125,74 @@ def addEmailToSheet(sheet1, style, style2, x):
     sheet1.write(x+4, 3, 0, style2)
     sheet1.write(x+3, 3, 0, style2)
 
-    sheet1.write(x+9, 0, "TOTAL:", style)
-    sheet1.write(x+9, 1, xlwt.Formula("SUM(B{}:B{})".format(x+3,x+7)), style2)
+    sheet1.write(x+8, 0, "SUBTOTAL:", style)
+    sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
     #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-    sheet1.write(x+9, 3, xlwt.Formula("SUM(D{}:D{})".format(x+3,x+7)), style2)
+    sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
+
+    x = x+9
+    return x
 
 def addLinkToSheet(sheet1, style, style2, x):
-    sheet1.write(x+11, 0, "Sponsored Link", style)
-    sheet1.write(x+11, 1, "Impressions", style)
-    sheet1.write(x+11, 3, "Clicks", style)
+    sheet1.write(x+2, 0, "Sponsored Link", style)
+    sheet1.write(x+2, 1, "Impressions", style2)
+    sheet1.write(x+2, 3, "Clicks", style2)
 
-    sheet1.write(x+12, 0, "Title of link", style)
+    sheet1.write(x+3, 0, "Title of link", style)
 
-    sheet1.write(x+12, 1, 0, style2)
+    sheet1.write(x+3, 1, 0, style2)
 
-    sheet1.write(x+12, 3, 0, style2)
+    sheet1.write(x+3, 3, 0, style2)
 
-    sheet1.write(x+14, 0, "TOTAL:", style)
-    sheet1.write(x+14, 1, xlwt.Formula("SUM(B{}:B{})".format(x+12,x+12)), style2)
+    #sheet1.write(x+4, 0, "SUBTOTAL:", style)
+    #sheet1.write(x+4, 1, xlwt.Formula("SUM(B{}:B{})".format(x+13,x+13)), style2)
     #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-    sheet1.write(x+14, 3, xlwt.Formula("SUM(D{}:D{})".format(x+12,x+12)), style2)
+    #sheet1.write(x+4, 3, xlwt.Formula("SUM(D{}:D{})".format(x+13,x+13)), style2)
+
+    x = x+4
+    return x
 
 def addTweetsToSheet(sheet1, style, style2, x):
-    sheet1.write(x+16, 0, "Tweets", style)
-    sheet1.write(x+16, 1, "Impressions", style)
-    sheet1.write(x+16, 2, "Engagements", style)
-    sheet1.write(x+16, 3, "URL Clicks", style)
+    sheet1.write(x+2, 0, "Tweets", style)
+    sheet1.write(x+2, 1, "Impressions", style2)
+    sheet1.write(x+2, 2, "Engagements", style2)
+    sheet1.write(x+2, 3, "URL Clicks", style2)
 
-    sheet1.write(x+17, 0, "Tweet Date", style)
-    sheet1.write(x+18, 0, "Tweet Date", style)
-    sheet1.write(x+19, 0, "Tweet Date", style)
-    sheet1.write(x+20, 0, "Tweet Date", style)
-    sheet1.write(x+21, 0, "Tweet Date", style)
+    sheet1.write(x+3, 0, "Tweet Date", style)
+    sheet1.write(x+4, 0, "Tweet Date", style)
+    sheet1.write(x+5, 0, "Tweet Date", style)
+    sheet1.write(x+6, 0, "Tweet Date", style)
+    sheet1.write(x+7, 0, "Tweet Date", style)
 
-    sheet1.write(x+17, 1, 0, style2)
-    sheet1.write(x+18, 1, 0, style2)
-    sheet1.write(x+19, 1, 0, style2)
-    sheet1.write(x+20, 1, 0, style2)
-    sheet1.write(x+21, 1, 0, style2)
+    sheet1.write(x+3, 1, 0, style2)
+    sheet1.write(x+4, 1, 0, style2)
+    sheet1.write(x+5, 1, 0, style2)
+    sheet1.write(x+6, 1, 0, style2)
+    sheet1.write(x+7, 1, 0, style2)
 
-    sheet1.write(x+17, 2, 0, style2)
-    sheet1.write(x+18, 2, 0, style2)
-    sheet1.write(x+19, 2, 0, style2)
-    sheet1.write(x+20, 2, 0, style2)
-    sheet1.write(x+21, 2, 0, style2)
+    sheet1.write(x+3, 2, 0, style2)
+    sheet1.write(x+4, 2, 0, style2)
+    sheet1.write(x+5, 2, 0, style2)
+    sheet1.write(x+6, 2, 0, style2)
+    sheet1.write(x+7, 2, 0, style2)
 
-    sheet1.write(x+17, 3, 0, style2)
-    sheet1.write(x+18, 3, 0, style2)
-    sheet1.write(x+19, 3, 0, style2)
-    sheet1.write(x+20, 3, 0, style2)
-    sheet1.write(x+21, 3, 0, style2)
+    sheet1.write(x+3, 3, 0, style2)
+    sheet1.write(x+4, 3, 0, style2)
+    sheet1.write(x+5, 3, 0, style2)
+    sheet1.write(x+6, 3, 0, style2)
+    sheet1.write(x+7, 3, 0, style2)
 
-    sheet1.write(x+17, 4, "Permalink", style)
-    sheet1.write(x+18, 4, "Permalink", style)
-    sheet1.write(x+19, 4, "Permalink", style)
-    sheet1.write(x+20, 4, "Permalink", style)
-    sheet1.write(x+21, 4, "Permalink", style)
+    sheet1.write(x+3, 4, "Permalink", style)
+    sheet1.write(x+4, 4, "Permalink", style)
+    sheet1.write(x+5, 4, "Permalink", style)
+    sheet1.write(x+6, 4, "Permalink", style)
+    sheet1.write(x+7, 4, "Permalink", style)
 
-    sheet1.write(x+23, 0, "TOTAL:", style)
-    sheet1.write(x+23, 1, xlwt.Formula("SUM(B{}:B{})".format(x+17,x+21)), style2)
-    sheet1.write(x+23, 2, xlwt.Formula("SUM(C{}:C{})".format(x+17,x+21)), style2)
-    sheet1.write(x+23, 3, xlwt.Formula("SUM(D{}:D{})".format(x+17,x+21)), style2)
+    sheet1.write(x+8, 0, "SUBTOTAL:", style)
+    sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
+    sheet1.write(x+8, 2, xlwt.Formula("SUM(C{}:C{})".format(x+4,x+8)), style2)
+    sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
+
+    x = x + 9
+    return x
 
