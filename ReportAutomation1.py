@@ -304,14 +304,26 @@ def excelReport():
 
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
-  if(videoAds == True):
-    email.insert(END, "I wanted to give you an update on the most recent video ad campaign for "+ title + ":\n\n")
-    email.insert(END, "Thus-far the video ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
-    videoAds = False
+  email.insert(END, "I wanted to give you an update on the most recent video ad campaign for "+ title + ":\n\n")
+  if(addEmail == False):
+    if(videoAds == True):
+      email.insert(END, "Thus-far the video ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      videoAds = False
+    else:
+      email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      videoAds = False
   else:
-    email.insert(END, "I wanted to give you an update on the most recent banner ad campaign for "+ title + ":\n\n")
-    email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
-    videoAds = False
+    if(videoAds == True):
+      email.insert(END, "Thus-far the video ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      videoAds = False
+    else:
+      email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      videoAds = False
+
   email.insert(END, "Full data report is attached.\n\n")
   email.insert(END, "Thank you for working with me on this project!!\n\n")
   email.insert(END, "Best Regards,\n")
