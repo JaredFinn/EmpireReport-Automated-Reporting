@@ -10,7 +10,7 @@ import random
 
 
 
-def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds):
     
     # Workbook is created
     wb = Workbook()
@@ -36,7 +36,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     sheet1.write(0, 0, title, style)
     sheet1.write(1, 0, ER, style)
 
-    sheet1.write(5, 0, "Banner Advertisement", style)
+    sheet1.write(5, 0, "Banner/Video Advertisement", style)
     sheet1.write(5, 1, "Views", style2)
     sheet1.write(5, 2, "Hovers", style2)
     sheet1.write(5, 3, "Clicks", style2)
@@ -44,10 +44,11 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     totalViews = 0
     totalHovers = 0
     totalClicks = 0
-
     j = 6
     for i in IMPORTNAMES:
         sheet1.write(j, 0, i, style)
+        if(("Video" in i) | ("video" in i)):
+            videoAds = True
         j = j+1
 
     j = 6
@@ -96,13 +97,12 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
         sheet1.write(x+1, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
     
 
-
     fileName = "{} {}".format(title,date)
     wb.save("C:\Jared\EmpireReport\Reports\\Automated\\" + fileName +".xls")
 
     totals = [totalViews, totalHovers, totalClicks]
 
-    return totals
+    return totals, videoAds
 
 def addEmailToSheet(sheet1, style, style2, x):
     
