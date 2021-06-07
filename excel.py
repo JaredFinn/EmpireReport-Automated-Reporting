@@ -72,14 +72,11 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     if(addEmail == True | addLink == True | addTweets == True):
         sheet1.write(x, 0, "SUBTOTAL:", style)
-    else:
-        sheet1.write(x+1, 0, "TOTAL:", style)
+        sheet1.write(x, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
+        sheet1.write(x, 2, xlwt.Formula("SUM(C7:C{})".format(x)), style2)
+        sheet1.write(x, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
 
-    sheet1.write(x, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
-    sheet1.write(x, 2, xlwt.Formula("SUM(C7:C{})".format(x)), style2)
-    sheet1.write(x, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
-
-    x = x +1
+    x = x + 1
     if(addEmail == True):
         x = addEmailToSheet(sheet1, style, style2, x)
     if(addLink == True):
@@ -87,10 +84,17 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     if(addTweets == True):
         x = addTweetsToSheet(sheet1, style, style2, x)
 
-    sheet1.write(x+3, 0, "GRAND TOTAL:", style)
-    sheet1.write(x+3, 1, 0, style2)
-    sheet1.write(x+3, 2, 0, style2)
-    sheet1.write(x+3, 3, 0, style2)
+    if(addEmail == True | addLink == True | addTweets == True):
+        sheet1.write(x+2, 0, "GRAND TOTAL:", style)
+        sheet1.write(x+2, 1, 0, style2)
+        sheet1.write(x+2, 2, 0, style2)
+        sheet1.write(x+2, 3, 0, style2)
+    else:
+        sheet1.write(x+1, 0, "TOTAL:", style)
+        sheet1.write(x+1, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
+        sheet1.write(x+1, 2, xlwt.Formula("SUM(C7:C{})".format(x)), style2)
+        sheet1.write(x+1, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
+    
 
 
     fileName = "{} {}".format(title,date)
