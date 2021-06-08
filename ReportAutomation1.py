@@ -80,7 +80,7 @@ emailFrame.place(relwidth=0.9, relheight=0.45, relx=0.05, rely=0.5)
 emailLabel=Label(emailFrame, text="Drafted Email", bg="white")
 emailLabel.place(x=10, y=5)
 
-email = Text(emailFrame, bg="grey")
+email = Text(emailFrame, bg="lightgrey")
 email.pack(padx=40, pady=30)
 
 data=("Current Story", "Past Story", "Ad Report")
@@ -307,24 +307,39 @@ def excelReport():
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent video ad campaign for "+ title + ":\n\n")
-  if(addEmail == False):
-    if(videoAds == True):
+  if(videoAds == True):
       email.insert(END, "Thus-far the video ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
-      videoAds = False
-    else:
-      email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
       videoAds = False
   else:
-    if(videoAds == True):
-      email.insert(END, "Thus-far the video ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
-      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
-      videoAds = False
-    else:
       email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      videoAds = False
+
+  if((addEmail == True) & (addLink == False) & (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
       email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
-      videoAds = False
+  elif((addEmail == False) & (addLink == True) & (addTweets == False)):
+      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+  elif((addEmail == False) & (addLink == False) & (addTweets == True)):
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+  elif((addEmail == True) & (addLink == True) & (addTweets == False)):
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+  elif((addEmail == False) & (addLink == True) & (addTweets == True)):
+      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+  elif((addEmail == True) & (addLink == False) & (addTweets == True)):
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+  elif((addEmail == True) & (addLink == True) & (addTweets == True)):
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
 
   email.insert(END, "Full data report is attached.\n\n")
   email.insert(END, "Thank you for working with me on this project!!\n\n")
