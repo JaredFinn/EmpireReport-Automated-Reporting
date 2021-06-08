@@ -99,29 +99,31 @@ storyLabel.place(x=135, y=150)
 
 ##Excel Tab
 AdvertiserLabel=Label(tab2, text="Program", bg="white")
-AdvertiserLabel.place(x=135, y=100)
+AdvertiserLabel.place(x=40, y=100)
 nameInput = Combobox(tab2, values=ads)
-nameInput.place(x=200, y=100)
+nameInput.place(x=100, y=100)
 
 
 emailVar = BooleanVar()
 emailCheck = Checkbutton(tab2, text="Email", variable=emailVar)
-emailCheck.place(x=150, y=150)
+emailCheck.place(x=255, y=100)
 linkVar = BooleanVar()
 linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
-linkCheck.place(x=215, y=150)
+linkCheck.place(x=320, y=100)
 tweetVar = BooleanVar()
 tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
-tweetCheck.place(x=330, y=150)
+tweetCheck.place(x=435, y=100)
 
 def drop(event):
         entry_sv.set(event.data)
 
+dir = tk.Label(tab2, text="Drop CSV file from Broadstreet Ads, select program name and press report.\nFill out any remaining stats, save file, and press construct email.")
+dir.pack(pady=10)
 
 entry_sv = StringVar()
 entry_sv.set('Drop Here...')
 entry = Entry(tab2, textvar=entry_sv, width=80)
-entry.pack(fill=X, padx=40, pady=50)
+entry.pack(fill=X, padx=40, pady=0)
 entry.drop_target_register(DND_FILES)
 entry.dnd_bind('<<Drop>>', drop)
 
@@ -356,6 +358,9 @@ emailBtn = tk.Button(tab1, text='Report', command=report)
 emailBtn.place(x=375, y=150)
 
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
-excelBtn.place(x=375, y=100)
+excelBtn.place(x=175, y=175)
+
+constructBtn = tk.Button(tab2, text='Construct Email')
+constructBtn.place(x=275, y=175)
 
 root.mainloop()

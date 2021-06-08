@@ -7,6 +7,7 @@ import xlrd
 from datetime import datetime, timedelta
 from datetime import date
 import random
+import os
 
 
 
@@ -97,8 +98,10 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
         sheet1.write(x+1, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
     
 
-    fileName = "{} {}".format(title,date)
-    wb.save("C:\Jared\EmpireReport\Reports\\Automated\\" + fileName +".xls")
+    fileName = "{} {}.xls".format(title,date)
+    filePath = "C:\Jared\EmpireReport\Reports\\Automated\\"+ fileName
+    wb.save(filePath)
+    os.startfile(filePath)
 
     totals = [totalViews, totalHovers, totalClicks]
 
