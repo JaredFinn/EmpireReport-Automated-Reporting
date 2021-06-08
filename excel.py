@@ -105,7 +105,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     totals = [totalViews, totalHovers, totalClicks]
 
-    return totals, videoAds
+    return totals, videoAds, filePath
 
 def addEmailToSheet(sheet1, style, style2, x):
     

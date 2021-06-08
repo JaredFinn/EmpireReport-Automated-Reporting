@@ -6,6 +6,9 @@ from tkinter.ttk import Combobox
 from tkinter import *
 from TkinterDnD2 import *
 import csv
+import xlrd
+
+from pyasn1.type.univ import Null
 
 import excel as excelTab
 
@@ -285,7 +288,25 @@ def report():
 
 ##method to create excel file and save it in location specified in excel.py
 ##creates total values to use for email draft
+addEmail = False
+addLink = False
+addTweets = False
+title = ""
+videoAds = False
+totalsImpressions = 0
+totalsHovers = 0
+totalsClicks = 0
+filePath = ""
 def excelReport():
+  global addEmail 
+  global addLink 
+  global addTweets 
+  global title
+  global videoAds 
+  global totalsImpressions
+  global totalsHovers
+  global totalsClicks
+  global filePath
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -298,24 +319,25 @@ def excelReport():
   addTweets = tweetVar.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  videoAds = False
-  totals, videoAds = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds)
-  totalsFromatted1 = '{:,.0f}'.format(totals[0])
-  totalsFromatted2 = '{:,.0f}'.format(totals[1])
-  totalsFromatted3 = '{:,.0f}'.format(totals[2])
+  totals, videoAds, filePath = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds)
+  totalsImpressions = '{:,.0f}'.format(totals[0])
+  totalsHovers = '{:,.0f}'.format(totals[1])
+  totalsClicks = '{:,.0f}'.format(totals[2])
 
+def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks):
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent video ad campaign for "+ title + ":\n\n")
   if(videoAds == True):
-      email.insert(END, "Thus-far the video ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      email.insert(END, "Thus-far the video ads have generated " + totalsImpressions + " impressions, " + totalsHovers + " hovers, and " + totalsClicks + " link clicks.\n")
       videoAds = False
   else:
-      email.insert(END, "Thus-far the banner ads have generated " + totalsFromatted1 + " impressions, " + totalsFromatted2 + " hovers, and " + totalsFromatted3 + " link clicks.\n")
+      email.insert(END, "Thus-far the banner ads have generated " + totalsImpressions + " impressions, " + totalsHovers + " hovers, and " + totalsClicks + " link clicks.\n")
       videoAds = False
 
+  
   if((addEmail == True) & (addLink == False) & (addTweets == False)):
-      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
   elif((addEmail == False) & (addLink == True) & (addTweets == False)):
       email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
@@ -348,6 +370,23 @@ def excelReport():
   email.insert(END, "Empire Report\n")
   email.insert(END, "917-565-3378")
 
+def updateEmail():
+  global filePath
+  print(filePath)
+  wb = xlrd.open_workbook(filePath)
+  sheet = wb.sheet_by_index(0)
+
+  sheet.cell_value(0, 0)
+
+  for i in range(sheet.nrows):
+    if("Email" in sheet.cell_value(i, 0)):
+        while("SUBTOTAL:" not in sheet.cell_value(i, 0)):
+          i = i+1
+        totalEmailImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+        totalEmailClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
+  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks)
+
+
 def importData():
   with open(entry_sv.get(), 'r') as file:
     reader = csv.reader(file)
@@ -375,7 +414,7 @@ emailBtn.place(x=375, y=150)
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
 excelBtn.place(x=175, y=175)
 
-constructBtn = tk.Button(tab2, text='Construct Email')
+constructBtn = tk.Button(tab2, text='Construct Email', command= lambda: updateEmail())
 constructBtn.place(x=275, y=175)
 
 root.mainloop()
