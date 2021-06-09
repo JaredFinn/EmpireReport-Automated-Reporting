@@ -33,7 +33,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'API', 'ASPCA', 'Astorino', 'Avangrid - Arch Street Communications', 'Back to Bowling'
                   ,'BASK', 'BE FAIR TO DIRECT CARE', 'BERLINROSEN ANTI-FRAUD LAWS', 'Bet on NY'
                   ,'BLUE COLLAR COALITION', 'BP AMERICAS', 'Building & Construction Trades of Greater New York'
-                  ,'Bull Moose Club', 'Business Council of Westchester', 'Butler Associates'
+                  ,'Bull Moose Club', 'Business Council of Westchester', 'Butler Associates', 'Catskills Renewable Connector'
                   ,'Cats Round Table', 'CENTRO CROMINAL JUSTICE', 'CENTRO Taxpayers for Affordable New York'
                   ,'Charter Spectrum', 'child victims act GREENBERG', 'CITIZENS FOR PROGRESS', 'Claudia Tenney for Congress'
                   ,'Clean Fuels NY Kivvit', 'Coalition for the Homeless', 'Coalition to Help Families (JACK BONNER)'
@@ -107,15 +107,7 @@ nameInput = Combobox(tab2, values=ads)
 nameInput.place(x=100, y=100)
 
 
-emailVar = BooleanVar()
-emailCheck = Checkbutton(tab2, text="Email", variable=emailVar)
-emailCheck.place(x=255, y=100)
-linkVar = BooleanVar()
-linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
-linkCheck.place(x=320, y=100)
-tweetVar = BooleanVar()
-tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
-tweetCheck.place(x=435, y=100)
+
 
 def drop(event):
         entry_sv.set(event.data)
@@ -327,7 +319,7 @@ def excelReport():
 def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks):
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
-  email.insert(END, "I wanted to give you an update on the most recent video ad campaign for "+ title + ":\n\n")
+  email.insert(END, "I wanted to give you an update on the most campaign stats for "+ title + ":\n\n")
   if(videoAds == True):
       email.insert(END, "Thus-far the video ads have generated " + totalsImpressions + " impressions, " + totalsHovers + " hovers, and " + totalsClicks + " link clicks.\n")
       videoAds = False
@@ -400,6 +392,23 @@ def importData():
           IMPORTVIEWS.append(row[1])
           IMPORTHOVERS.append(row[2])
           IMPORTCLICKS.append(row[3])
+
+emailVar = BooleanVar()
+
+def addRemoveUnique():
+  uniqueEmail = BooleanVar()
+  uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
+  uniqueEmailCheck.place(x=255, y=125)
+  
+
+emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addRemoveUnique())
+emailCheck.place(x=255, y=100)
+linkVar = BooleanVar()
+linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
+linkCheck.place(x=320, y=100)
+tweetVar = BooleanVar()
+tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
+tweetCheck.place(x=435, y=100)
 
 
 response = getPages(analytics)
