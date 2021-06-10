@@ -10,9 +10,22 @@ import random
 import os
 
 
+adImp = 0
+emailImp = 0
+linkImp = 0
+tweetImp = 0
+adClicks = 0
+emailClicks = 0
+linkClicks= 0
+tweetClicks = 0
+
 
 def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds):
-    
+    global adImp
+    global emailImp
+    global linkImp
+    global tweetImp
+
     # Workbook is created
     wb = Workbook()
 
@@ -74,6 +87,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     if(addEmail == True | addLink == True | addTweets == True):
         sheet1.write(x, 0, "SUBTOTAL:", style)
+        adImp = x+1
         sheet1.write(x, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
         sheet1.write(x, 2, xlwt.Formula("SUM(C7:C{})".format(x)), style2)
         sheet1.write(x, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
@@ -86,11 +100,25 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     if(addTweets == True):
         x = addTweetsToSheet(sheet1, style, style2, x)
 
-    if(addEmail == True | addLink == True | addTweets == True):
+
+    if(addEmail == True or addLink == True or addTweets == True):
         sheet1.write(x+2, 0, "GRAND TOTAL:", style)
-        sheet1.write(x+2, 1, 0, style2)
-        sheet1.write(x+2, 2, 0, style2)
-        sheet1.write(x+2, 3, 0, style2)
+        if(addEmail == True and addLink == True and addTweets == True):
+            sheet1.write(x+2, 1, xlwt.Formula("B{}+B{}+B{}+B{}".format(adImp, emailImp, linkImp, tweetImp)), style2)
+            sheet1.write(x+2, 2, xlwt.Formula("C{}+C{}+C{}+C{}".format(adImp, emailImp, linkImp, tweetImp)), style2)
+            sheet1.write(x+2, 3, xlwt.Formula("D{}+D{}+D{}+D{}".format(adImp, emailImp, linkImp, tweetImp)), style2)
+        elif(addEmail == True and addLink == True and addTweets == False):
+            sheet1.write(x+2, 1, xlwt.Formula("B{}+B{}+B{}".format(adImp, emailImp, linkImp)), style2)
+            sheet1.write(x+2, 2, xlwt.Formula("C{}+C{}+C{}".format(adImp, emailImp, linkImp)), style2)
+            sheet1.write(x+2, 3, xlwt.Formula("D{}+D{}+D{}".format(adImp, emailImp, linkImp)), style2)
+        elif(addEmail == True and addLink == False and addTweets == True):
+            sheet1.write(x+2, 1, xlwt.Formula("B{}+B{}+B{}".format(adImp, emailImp, tweetImp)), style2)
+            sheet1.write(x+2, 2, xlwt.Formula("C{}+C{}+C{}".format(adImp, emailImp, tweetImp)), style2)
+            sheet1.write(x+2, 3, xlwt.Formula("D{}+D{}+D{}".format(adImp, emailImp, tweetImp)), style2)
+        elif(addEmail == False and addLink == True and addTweets == True):
+            sheet1.write(x+2, 1, xlwt.Formula("B{}+B{}+B{}".format(adImp, linkImp, tweetImp)), style2)
+            sheet1.write(x+2, 2, xlwt.Formula("C{}+C{}+C{}".format(adImp, linkImp, tweetImp)), style2)
+            sheet1.write(x+2, 3, xlwt.Formula("D{}+D{}+D{}".format(adImp, linkImp, tweetImp)), style2)
     else:
         sheet1.write(x+1, 0, "TOTAL:", style)
         sheet1.write(x+1, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
@@ -108,7 +136,8 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     return totals, videoAds, filePath
 
 def addEmailToSheet(sheet1, style, style2, x):
-    
+    global emailImp
+
     sheet1.write(x+2, 0, "Email Blast w/ sponsored message", style)
     sheet1.write(x+2, 1, "Impressions", style2)
     sheet1.write(x+2, 3, "Clicks", style2)
@@ -133,6 +162,7 @@ def addEmailToSheet(sheet1, style, style2, x):
     sheet1.write(x+3, 3, 0, style2)
 
     sheet1.write(x+8, 0, "SUBTOTAL:", style)
+    emailImp = x+8+1
     sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
     #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
     sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
@@ -141,11 +171,13 @@ def addEmailToSheet(sheet1, style, style2, x):
     return x
 
 def addLinkToSheet(sheet1, style, style2, x):
+    global linkImp
     sheet1.write(x+2, 0, "Sponsored Link", style)
     sheet1.write(x+2, 1, "Impressions", style2)
     sheet1.write(x+2, 3, "Clicks", style2)
 
     sheet1.write(x+3, 0, "Title of link", style)
+    linkImp = x+3+1
 
     sheet1.write(x+3, 1, 0, style2)
 
@@ -160,6 +192,7 @@ def addLinkToSheet(sheet1, style, style2, x):
     return x
 
 def addTweetsToSheet(sheet1, style, style2, x):
+    global tweetImp
     sheet1.write(x+2, 0, "Tweets", style)
     sheet1.write(x+2, 1, "Impressions", style2)
     sheet1.write(x+2, 2, "Engagements", style2)
@@ -196,10 +229,12 @@ def addTweetsToSheet(sheet1, style, style2, x):
     sheet1.write(x+7, 4, "Permalink", style)
 
     sheet1.write(x+8, 0, "SUBTOTAL:", style)
+    tweetImp = x+8+1
     sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
     sheet1.write(x+8, 2, xlwt.Formula("SUM(C{}:C{})".format(x+4,x+8)), style2)
     sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
 
     x = x + 9
     return x
+
 

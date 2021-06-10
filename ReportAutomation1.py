@@ -316,7 +316,10 @@ def excelReport():
   totalsHovers = '{:,.0f}'.format(totals[1])
   totalsClicks = '{:,.0f}'.format(totals[2])
 
-def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks):
+def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks):
+  
+
+  
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most campaign stats for "+ title + ":\n\n")
@@ -330,30 +333,30 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
   
   if((addEmail == True) & (addLink == False) & (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) & (addLink == True) & (addTweets == False)):
-      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) & (addLink == False) & (addTweets == True)):
-      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) & (addLink == True) & (addTweets == False)):
-      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) & (addLink == True) & (addTweets == True)):
-      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) & (addLink == False) & (addTweets == True)):
-      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) & (addLink == True) & (addTweets == True)):
-      email.insert(END, "The sponsored message in the daily email newsletter has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "The sponsored story on Empire Report has generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + str(0) + " impressions and " + str(0) + " link clicks.\n")
-      email.insert(END, "TOTAL: " + str(0) + " impressions and " + str(0) + " link clicks\n")
+      email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
+      email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
+      email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
 
   email.insert(END, "Full data report is attached.\n\n")
   email.insert(END, "Thank you for working with me on this project!!\n\n")
@@ -376,7 +379,20 @@ def updateEmail():
           i = i+1
         totalEmailImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
         totalEmailClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
-  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks)
+    if("Link" in sheet.cell_value(i, 0)):
+        i = i+1
+        totalLinkImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+        totalLinkClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
+    if("Tweets" in sheet.cell_value(i, 0)):
+        while("SUBTOTAL:" not in sheet.cell_value(i, 0)):
+          i = i+1
+        totalTweetImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+        totalTweetClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
+    if("GRAND" in sheet.cell_value(i, 0)):
+        grandTotalImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+        grandTotalHovers = '{:,.0f}'.format(float(sheet.cell_value(i, 2)))
+        grandTotalClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
+  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks)
 
 
 def importData():
