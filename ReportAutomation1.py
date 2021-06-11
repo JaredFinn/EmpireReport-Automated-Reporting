@@ -134,7 +134,7 @@ def initialize_analyticsreporting():
       formatter_class=argparse.RawDescriptionHelpFormatter,
       parents=[tools.argparser])
   flags = parser.parse_args([])
-
+  
   # Set up a Flow object to be used if we need to authenticate.
   flow = client.flow_from_clientsecrets(
       CLIENT_SECRETS_PATH, scope=SCOPES,
@@ -289,10 +289,12 @@ totalsImpressions = 0
 totalsHovers = 0
 totalsClicks = 0
 filePath = ""
+uniqueEmail = BooleanVar()
 def excelReport():
   global addEmail 
   global addLink 
   global addTweets 
+  global uniqueEmail
   global title
   global videoAds 
   global totalsImpressions
@@ -309,9 +311,10 @@ def excelReport():
   addEmail = emailVar.get()
   addLink = linkVar.get()
   addTweets = tweetVar.get()
+  addUnique = uniqueEmail.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  totals, videoAds, filePath = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds)
+  totals, videoAds, filePath = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique)
   totalsImpressions = '{:,.0f}'.format(totals[0])
   totalsHovers = '{:,.0f}'.format(totals[1])
   totalsClicks = '{:,.0f}'.format(totals[2])
@@ -412,11 +415,11 @@ def importData():
 emailVar = BooleanVar()
 
 def addRemoveUnique():
-  uniqueEmail = BooleanVar()
-  uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
+  global uniqueEmailCheck
   uniqueEmailCheck.place(x=255, y=125)
   
 
+uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
 emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addRemoveUnique())
 emailCheck.place(x=255, y=100)
 linkVar = BooleanVar()
