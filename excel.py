@@ -139,7 +139,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     
 
     fileName = "{} {}.xls".format(title,date)
-    filePath = "C:\Jared\EmpireReport\Reports\\Automated\\"+ fileName
+    filePath = "C:\Jared\EmpireReport\Reports\\6-14Reports\\"+ fileName
     wb.save(filePath)
     os.startfile(filePath)
 
