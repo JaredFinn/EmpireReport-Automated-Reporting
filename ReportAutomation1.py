@@ -325,7 +325,7 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
   
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
-  email.insert(END, "I wanted to give you an update on the most campaign stats for "+ title + ":\n\n")
+  email.insert(END, "I wanted to give you an update on the most recent campaign stats for "+ title + ":\n\n")
   if(videoAds == True):
       email.insert(END, "Thus-far the video ads have generated " + totalsImpressions + " impressions, " + totalsHovers + " hovers, and " + totalsClicks + " link clicks.\n")
       videoAds = False
@@ -368,8 +368,28 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
   email.insert(END, "Empire Report\n")
   email.insert(END, "917-565-3378")
 
+totalEmailImp = 0
+totalEmailClicks = 0
+totalLinkImp = 0
+totalLinkClicks = 0
+totalTweetImp = 0
+totalTweetClicks = 0
+grandTotalImp = 0
+grandTotalHovers = 0
+grandTotalClicks = 0
+
 def updateEmail():
   global filePath
+  global totalEmailImp
+  global totalEmailClicks
+  global totalLinkImp
+  global totalLinkClicks
+  global totalTweetImp
+  global totalTweetClicks
+  global grandTotalImp 
+  global grandTotalHovers 
+  global grandTotalClicks 
+
   print(filePath)
   wb = xlrd.open_workbook(filePath)
   sheet = wb.sheet_by_index(0)

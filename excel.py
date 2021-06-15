@@ -133,9 +133,9 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
             sheet1.write(x+2, 3, xlwt.Formula("D{}+D{}".format(adImp, tweetImp)), style2)
     else:
         sheet1.write(x+1, 0, "TOTAL:", style)
-        sheet1.write(x+1, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
-        sheet1.write(x+1, 2, xlwt.Formula("SUM(C7:C{})".format(x)), style2)
-        sheet1.write(x+1, 3, xlwt.Formula("SUM(D7:D{})".format(x)), style2)
+        sheet1.write(x+1, 1, xlwt.Formula("SUM(B7:B{})".format(x-1)), style2)
+        sheet1.write(x+1, 2, xlwt.Formula("SUM(C7:C{})".format(x-1)), style2)
+        sheet1.write(x+1, 3, xlwt.Formula("SUM(D7:D{})".format(x-1)), style2)
     
 
     fileName = "{} {}.xls".format(title,date)
