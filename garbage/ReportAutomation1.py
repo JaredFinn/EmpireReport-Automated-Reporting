@@ -12,11 +12,11 @@ from pyasn1.type.univ import Null
 
 import excel as excelTab
 
-from googleapiclient.discovery import build
-import httplib2
-from oauth2client import client
-from oauth2client import file
-from oauth2client import tools
+#from googleapiclient.discovery import build
+#import httplib2
+#from oauth2client import client
+#from oauth2client import file
+#from oauth2client import tools
 
 
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
@@ -64,15 +64,15 @@ root.title("Report Automation")
 canvas = tk.Canvas(root, height=600, width= 600, bg="#4a98f0")
 canvas.pack()
 
-frame = tk.Frame(root, bg="white")
+frame = tk.Frame(root, bg="lightgrey")
 frame.place(relwidth=0.9, relheight=0.4, relx=0.05, rely=0.05)
 
 tabControl = ttk.Notebook(frame)
 
-tab1 = ttk.Frame(tabControl)
+#tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
 
-tabControl.add(tab1, text ='Email Report')
+#tabControl.add(tab1, text ='Email Report')
 tabControl.add(tab2, text ='Excel Report')
 tabControl.grid(padx=50)
 tabControl.pack(expand = 1, fill ="both")
@@ -89,19 +89,11 @@ email.pack(padx=40, pady=30)
 data=("Current Story", "Past Story", "Ad Report")
 ads=ADPROGRAMS
 
-cb=Combobox(tab1, values=data)
-cb.place(x=250, y=100)
  
 all = '/'  
 
-#Email Tabs
-reportLabel=Label(tab1, text="Select Report Type", bg="white")
-reportLabel.place(x=135, y=100)
-storyLabel= Label(tab1, text="Enter Story", bg="white")
-storyLabel.place(x=135, y=150)
-
 ##Excel Tab
-AdvertiserLabel=Label(tab2, text="Program", bg="white")
+AdvertiserLabel=Label(tab2, text="Program")
 AdvertiserLabel.place(x=40, y=100)
 nameInput = Combobox(tab2, values=ads)
 nameInput.place(x=100, y=100)
@@ -122,40 +114,40 @@ entry.pack(fill=X, padx=40, pady=0)
 entry.drop_target_register(DND_FILES)
 entry.dnd_bind('<<Drop>>', drop)
 
-
-def initialize_analyticsreporting():
-  """Initializes the analyticsreporting service object.
-
-  Returns:
-    analytics an authorized analyticsreporting service object.
-  """
-  # Parse command-line arguments.
-  parser = argparse.ArgumentParser(
-      formatter_class=argparse.RawDescriptionHelpFormatter,
-      parents=[tools.argparser])
-  flags = parser.parse_args([])
-  
-  # Set up a Flow object to be used if we need to authenticate.
-  flow = client.flow_from_clientsecrets(
-      CLIENT_SECRETS_PATH, scope=SCOPES,
-      message=tools.message_if_missing(CLIENT_SECRETS_PATH))
-
-  # Prepare credentials, and authorize HTTP object with them.
-  # If the credentials don't exist or are invalid run through the native client
-  # flow. The Storage object will ensure that if successful the good
-  # credentials will get written back to a file.
-  storage = file.Storage('analyticsreporting.dat')
-  credentials = storage.get()
-  if credentials is None or credentials.invalid:
-    credentials = tools.run_flow(flow, storage, flags)
-  http = credentials.authorize(http=httplib2.Http())
-
-  # Build the service object.
-  analytics = build('analyticsreporting', 'v4', http=http)
-
-  return analytics
-
-analytics = initialize_analyticsreporting()
+#
+#def initialize_analyticsreporting():
+#  """Initializes the analyticsreporting service object.
+#
+#  Returns:
+#    analytics an authorized analyticsreporting service object.
+#  """
+#  # Parse command-line arguments.
+#  parser = argparse.ArgumentParser(
+#      formatter_class=argparse.RawDescriptionHelpFormatter,
+#      parents=[tools.argparser])
+#  flags = parser.parse_args([])
+#  
+#  # Set up a Flow object to be used if we need to authenticate.
+#  flow = client.flow_from_clientsecrets(
+#      CLIENT_SECRETS_PATH, scope=SCOPES,
+#      message=tools.message_if_missing(CLIENT_SECRETS_PATH))
+#
+#  # Prepare credentials, and authorize HTTP object with them.
+#  # If the credentials don't exist or are invalid run through the native client
+#  # flow. The Storage object will ensure that if successful the good
+#  # credentials will get written back to a file.
+#  storage = file.Storage('analyticsreporting.dat')
+#  credentials = storage.get()
+#  if credentials is None or credentials.invalid:
+#    credentials = tools.run_flow(flow, storage, flags)
+#  http = credentials.authorize(http=httplib2.Http())
+#
+#  # Build the service object.
+#  analytics = build('analyticsreporting', 'v4', http=http)
+#
+#  return analytics
+#
+#analytics = initialize_analyticsreporting()
 
 def get_reportCurrentStory(analytics, rgx):
   # Use the Analytics Service Object to query the Analytics Reporting API V4.
@@ -261,21 +253,21 @@ def print_titles(response):
         PAGES.append(dimension)
 
 
-def report():
-  type=cb.get()
-  rgx=pageCb.get()
-  if(type == "Current Story"):
-    analytics = initialize_analyticsreporting()
-    response = get_reportCurrentStory(analytics, rgx)
-    print_response(response, rgx)
-  #elif(type == "Past Story"):
-    #analytics = initialize_analyticsreporting()
-    #response = get_reportPastStory(analytics, rgx)
-    #print_response(response, rgx)
-  #else:
-    #analytics = initialize_analyticsreporting()
-    #response = get_reportAds(analytics, rgx)
-    #print_response(response, rgx)
+#def report():
+#  type=cb.get()
+#  rgx=pageCb.get()
+#  if(type == "Current Story"):
+#    analytics = initialize_analyticsreporting()
+#    response = get_reportCurrentStory(analytics, rgx)
+#    print_response(response, rgx)
+#  #elif(type == "Past Story"):
+#    #analytics = initialize_analyticsreporting()
+#    #response = get_reportPastStory(analytics, rgx)
+#    #print_response(response, rgx)
+#  #else:
+#    #analytics = initialize_analyticsreporting()
+#    #response = get_reportAds(analytics, rgx)
+#    #print_response(response, rgx)
 
 
 ##method to create excel file and save it in location specified in excel.py
@@ -450,14 +442,14 @@ tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
 tweetCheck.place(x=435, y=100)
 
 
-response = getPages(analytics)
-print_titles(response)
+#response = getPages(analytics)
+#print_titles(response)
 
-pageCb=Combobox(tab1, values=PAGES)
-pageCb.place(x=210, y=150)
+#pageCb=Combobox(tab1, values=PAGES)
+#pageCb.place(x=210, y=150)
 
-emailBtn = tk.Button(tab1, text='Report', command=report)
-emailBtn.place(x=375, y=150)
+#emailBtn = tk.Button(tab1, text='Report', command=report)
+#emailBtn.place(x=375, y=150)
 
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
 excelBtn.place(x=175, y=175)
