@@ -139,13 +139,13 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     
 
     fileName = "{} {}.xls".format(title,date)
-    filePath = "C:\Jared\EmpireReport\Reports\\6-14Reports\\"+ fileName
+    filePath = "C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\\Reports\\"+ fileName
     wb.save(filePath)
     os.startfile(filePath)
 
     totals = [totalViews, totalHovers, totalClicks]
 
-    return totals, videoAds, filePath
+    return totals, videoAds, filePath, fileName
 
 def addEmailToSheet(sheet1, style, style2, x, addUnique):
     global emailImp

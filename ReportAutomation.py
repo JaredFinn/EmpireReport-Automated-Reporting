@@ -1,3 +1,4 @@
+from email.message import EmailMessage
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
@@ -6,10 +7,15 @@ from tkinter import *
 from TkinterDnD2 import *
 import csv
 import xlrd
-
+import smtplib, ssl
 from pyasn1.type.univ import Null
-
 import excel as excelTab
+import email, smtplib, ssl
+
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 
@@ -76,7 +82,7 @@ emailLabel=Label(emailFrame, text="Drafted Email", bg="white")
 emailLabel.place(x=10, y=5)
 
 email = Text(emailFrame, bg="lightgrey")
-email.pack(padx=40, pady=30)
+email.pack(padx=40, pady=40)
 
 data=("Current Story", "Past Story", "Ad Report")
 ads=ADPROGRAMS
@@ -118,6 +124,7 @@ totalsImpressions = 0
 totalsHovers = 0
 totalsClicks = 0
 filePath = ""
+fileName = ""
 uniqueEmail = BooleanVar()
 def excelReport():
   global addEmail 
@@ -130,6 +137,7 @@ def excelReport():
   global totalsHovers
   global totalsClicks
   global filePath
+  global fileName
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -141,7 +149,7 @@ def excelReport():
   addUnique = uniqueEmail.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  totals, videoAds, filePath = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique)
+  totals, videoAds, filePath, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique)
   totalsImpressions = '{:,.0f}'.format(totals[0])
   totalsHovers = '{:,.0f}'.format(totals[1])
   totalsClicks = '{:,.0f}'.format(totals[2])
@@ -259,6 +267,37 @@ def importData():
           IMPORTHOVERS.append(row[2])
           IMPORTCLICKS.append(row[3])
 
+
+to_email = tk.StringVar()
+
+
+
+def sendEmail():
+  global fileName
+  global email
+  sender_email = "ERautotesting@gmail.com"  # Enter your address
+  receiving_email = to_email.get()
+  password = "EmpireReport"
+  subject = "Report Testing"
+  body = email.get("1.0", END)
+
+  msg = EmailMessage()
+  msg['Subject'] = subject
+  msg['From'] = sender_email
+  msg['To'] = receiving_email
+  msg.set_content(body)
+
+  with open("C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\Reports\\"+fileName, 'rb') as f:
+      file_data = f.read()
+  msg.add_attachment(file_data, maintype="application", subtype="xlsx", filename=fileName)
+
+  with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+      smtp.login(sender_email, password)
+      smtp.send_message(msg)
+
+
+
+
 emailVar = BooleanVar()
 
 def addRemoveUnique():
@@ -282,5 +321,14 @@ excelBtn.place(x=175, y=175)
 
 constructBtn = tk.Button(tab2, text='Construct Email', command= lambda: updateEmail())
 constructBtn.place(x=275, y=175)
+
+toLabel = tk.Label(emailFrame, text="To:", bg="white")
+toLabel.place(x=240, y=240)
+
+emailEntry = tk.Entry(emailFrame, textvariable=to_email, width=30)
+emailEntry.place(x=270, y=240)
+sendEmailBtn = tk.Button(emailFrame, text='Send', command= lambda: sendEmail())
+sendEmailBtn.place(x=465, y=240)
+
 
 root.mainloop()
