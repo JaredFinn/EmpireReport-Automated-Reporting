@@ -1,16 +1,14 @@
-import smtplib, ssl
+from email.mime import text
+import tkinter as tk
+from tkinter import ttk
 
-port = 465  # For SSL
-smtp_server = "smtp.gmail.com"
-sender_email = "ERautotesting@gmail.com"  # Enter your address
-receiver_email = "jaredhfinn@gmail.com"  # Enter receiver address
-password = input("Type your password and press enter: ")
-message = """\
-Subject: Hi there
+root = tk.Tk()
+root.geometry("400x300")
+style = ttk.Style(root)
+root.tk.call('source', 'azure/azure.tcl')
+style.theme_use('azure')
 
-This message was successfully sent from Python."""
+button = ttk.Button(root, text="hello", style="Accentbutton")
+button.pack()
 
-context = ssl.create_default_context()
-with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-    server.login(sender_email, password)
-    server.sendmail(sender_email, receiver_email, message)
+root.mainloop()

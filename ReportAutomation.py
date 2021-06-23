@@ -2,7 +2,7 @@ from email.message import EmailMessage
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-from tkinter.ttk import Combobox
+from tkinter.ttk import Combobox, Style
 from tkinter import *
 from TkinterDnD2 import *
 import csv
@@ -154,9 +154,9 @@ def excelReport():
   totalsHovers = '{:,.0f}'.format(totals[1])
   totalsClicks = '{:,.0f}'.format(totals[2])
 
-def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks):
+def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
   
-
+  global uniqueEmail
   
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
@@ -171,6 +171,8 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
   
   if((addEmail == True) & (addLink == False) & (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      if(uniqueEmail.get() == True):
+        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) & (addLink == True) & (addTweets == False)):
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
@@ -180,6 +182,8 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) & (addLink == True) & (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      if(uniqueEmail.get() == True):
+        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) & (addLink == True) & (addTweets == True)):
@@ -188,10 +192,14 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) & (addLink == False) & (addTweets == True)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      if(uniqueEmail.get() == True):
+        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) & (addLink == True) & (addTweets == True)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
+      if(uniqueEmail.get() == True):
+        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
@@ -234,6 +242,9 @@ def updateEmail():
   for i in range(sheet.nrows):
     if("Email" in sheet.cell_value(i, 0)):
         while("SUBTOTAL:" not in sheet.cell_value(i, 0)):
+          if("Unique" in sheet.cell_value(i, 0)):
+            totalUniqueImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+            totalUniqueClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
           i = i+1
         totalEmailImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
         totalEmailClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
@@ -250,7 +261,7 @@ def updateEmail():
         grandTotalImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
         grandTotalHovers = '{:,.0f}'.format(float(sheet.cell_value(i, 2)))
         grandTotalClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
-  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks)
+  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks)
 
 
 def importData():
@@ -300,13 +311,13 @@ def sendEmail():
 
 emailVar = BooleanVar()
 
-def addRemoveUnique():
+def addUnique():
   global uniqueEmailCheck
   uniqueEmailCheck.place(x=255, y=125)
   
 
 uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
-emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addRemoveUnique())
+emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addUnique())
 emailCheck.place(x=255, y=100)
 linkVar = BooleanVar()
 linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
@@ -327,6 +338,8 @@ toLabel.place(x=240, y=240)
 
 emailEntry = tk.Entry(emailFrame, textvariable=to_email, width=30)
 emailEntry.place(x=270, y=240)
+
+
 sendEmailBtn = tk.Button(emailFrame, text='Send', command= lambda: sendEmail())
 sendEmailBtn.place(x=465, y=240)
 
