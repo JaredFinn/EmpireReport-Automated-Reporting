@@ -20,7 +20,7 @@ linkClicks= 0
 tweetClicks = 0
 
 
-def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path):
     global adImp
     global emailImp
     global linkImp
@@ -139,13 +139,12 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     
 
     fileName = "{} {}.xls".format(title,date)
-    filePath = "C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\\Reports\\"+ fileName
-    wb.save(filePath)
-    os.startfile(filePath)
+    wb.save(folder_path + "\\" + fileName)
+    os.startfile(folder_path + "\\" + fileName)
 
     totals = [totalViews, totalHovers, totalClicks]
 
-    return totals, videoAds, filePath, fileName
+    return totals, videoAds, fileName
 
 def addEmailToSheet(sheet1, style, style2, x, addUnique):
     global emailImp

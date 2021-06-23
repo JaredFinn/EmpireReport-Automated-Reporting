@@ -1,9 +1,11 @@
 from email.message import EmailMessage
+from email.mime import text
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
 from tkinter.ttk import Combobox, Style
 from tkinter import *
+from tkinter import filedialog
 from TkinterDnD2 import *
 import csv
 import xlrd
@@ -123,9 +125,9 @@ videoAds = False
 totalsImpressions = 0
 totalsHovers = 0
 totalsClicks = 0
-filePath = ""
 fileName = ""
 uniqueEmail = BooleanVar()
+folder_path = ""
 def excelReport():
   global addEmail 
   global addLink 
@@ -136,8 +138,8 @@ def excelReport():
   global totalsImpressions
   global totalsHovers
   global totalsClicks
-  global filePath
   global fileName
+  global folder_path
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -149,7 +151,7 @@ def excelReport():
   addUnique = uniqueEmail.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  totals, videoAds, filePath, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique)
+  totals, videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path)
   totalsImpressions = '{:,.0f}'.format(totals[0])
   totalsHovers = '{:,.0f}'.format(totals[1])
   totalsClicks = '{:,.0f}'.format(totals[2])
@@ -220,9 +222,12 @@ totalTweetClicks = 0
 grandTotalImp = 0
 grandTotalHovers = 0
 grandTotalClicks = 0
+totalUniqueImp = 0
+totalUniqueClicks = 0
 
 def updateEmail():
-  global filePath
+  global folder_path
+  global fileName
   global totalEmailImp
   global totalEmailClicks
   global totalLinkImp
@@ -232,9 +237,11 @@ def updateEmail():
   global grandTotalImp 
   global grandTotalHovers 
   global grandTotalClicks 
+  global totalUniqueImp
+  global totalUniqueClicks
 
-  print(filePath)
-  wb = xlrd.open_workbook(filePath)
+  print(folder_path + "/" + fileName)
+  wb = xlrd.open_workbook(folder_path + "/" + fileName)
   sheet = wb.sheet_by_index(0)
 
   sheet.cell_value(0, 0)
@@ -307,13 +314,16 @@ def sendEmail():
       smtp.send_message(msg)
 
 
-
-
 emailVar = BooleanVar()
 
 def addUnique():
   global uniqueEmailCheck
   uniqueEmailCheck.place(x=255, y=125)
+
+def save():
+  global folder_path
+  folder_path = filedialog.askdirectory(initialdir='C:\\')
+  dirLabel.insert(END, folder_path)
   
 
 uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
@@ -326,12 +336,20 @@ tweetVar = BooleanVar()
 tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
 tweetCheck.place(x=435, y=100)
 
+saveLabel = tk.Label(tab2, text='Choose save location prior to reporting:')
+saveLabel.place(x=25, y=150)
+
+browseBtn = tk.Button(tab2, text='Browse', command=save)
+browseBtn.place(x=25, y=175)
+
+dirLabel = tk.Text(tab2, height=1, width=25)
+dirLabel.place(x=80, y=180)
 
 excelBtn = tk.Button(tab2, text='Report', command=excelReport)
-excelBtn.place(x=175, y=175)
+excelBtn.place(x=350, y=175)
 
 constructBtn = tk.Button(tab2, text='Construct Email', command= lambda: updateEmail())
-constructBtn.place(x=275, y=175)
+constructBtn.place(x=425, y=175)
 
 toLabel = tk.Label(emailFrame, text="To:", bg="white")
 toLabel.place(x=240, y=240)
