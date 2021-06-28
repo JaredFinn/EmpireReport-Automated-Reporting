@@ -10,7 +10,6 @@ from TkinterDnD2 import *
 import csv
 import xlrd
 import smtplib, ssl
-from pyasn1.type.univ import Null
 import excel as excelTab
 import email, smtplib, ssl
 
@@ -151,12 +150,9 @@ def excelReport():
   addUnique = uniqueEmail.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  totals, videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path)
-  totalsImpressions = '{:,.0f}'.format(totals[0])
-  totalsHovers = '{:,.0f}'.format(totals[1])
-  totalsClicks = '{:,.0f}'.format(totals[2])
+  videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path)
 
-def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
+def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
   
   global uniqueEmail
   
@@ -164,10 +160,10 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent campaign stats for "+ title + ":\n\n")
   if(videoAds == True):
-      email.insert(END, "Thus-far the video ads have generated " + totalsImpressions + " impressions, " + totalsHovers + " hovers, and " + totalsClicks + " link clicks.\n")
+      email.insert(END, "Thus-far the video ads have generated " + totalAdImp + " impressions, " + totalAdHovers + " hovers, and " + totalAdClicks + " link clicks.\n")
       videoAds = False
   else:
-      email.insert(END, "Thus-far the banner ads have generated " + totalsImpressions + " impressions, " + totalsHovers + " hovers, and " + totalsClicks + " link clicks.\n")
+      email.insert(END, "Thus-far the banner ads have generated " + totalAdImp + " impressions, " + totalAdHovers + " hovers, and " + totalAdClicks + " link clicks.\n")
       videoAds = False
 
   
@@ -213,6 +209,9 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressi
   email.insert(END, "Empire Report\n")
   email.insert(END, "917-565-3378")
 
+totalAdImp = 0
+totalAdHovers = 0
+totalAdClicks = 0
 totalEmailImp = 0
 totalEmailClicks = 0
 totalLinkImp = 0
@@ -228,6 +227,9 @@ totalUniqueClicks = 0
 def updateEmail():
   global folder_path
   global fileName
+  global totalAdImp
+  global totalAdHovers
+  global totalAdClicks
   global totalEmailImp
   global totalEmailClicks
   global totalLinkImp
@@ -247,6 +249,12 @@ def updateEmail():
   sheet.cell_value(0, 0)
 
   for i in range(sheet.nrows):
+    if("Advertisement" in sheet.cell_value(i, 0)):
+        while("SUBTOTAL:" not in sheet.cell_value(i, 0)):
+          i = i+1
+        totalAdImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+        totalAdHovers = '{:,.0f}'.format(float(sheet.cell_value(i, 2)))
+        totalAdClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
     if("Email" in sheet.cell_value(i, 0)):
         while("SUBTOTAL:" not in sheet.cell_value(i, 0)):
           if("Unique" in sheet.cell_value(i, 0)):
@@ -268,7 +276,7 @@ def updateEmail():
         grandTotalImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
         grandTotalHovers = '{:,.0f}'.format(float(sheet.cell_value(i, 2)))
         grandTotalClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
-  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalsImpressions, totalsHovers, totalsClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks)
+  constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks)
 
 
 def importData():
@@ -291,6 +299,7 @@ to_email = tk.StringVar()
 
 
 def sendEmail():
+  global folder_path
   global fileName
   global email
   sender_email = "ERautotesting@gmail.com"  # Enter your address
@@ -305,7 +314,7 @@ def sendEmail():
   msg['To'] = receiving_email
   msg.set_content(body)
 
-  with open("C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\Reports\\"+fileName, 'rb') as f:
+  with open(folder_path + "/" + fileName, 'rb') as f:
       file_data = f.read()
   msg.add_attachment(file_data, maintype="application", subtype="xlsx", filename=fileName)
 

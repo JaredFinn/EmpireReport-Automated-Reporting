@@ -142,9 +142,8 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     wb.save(folder_path + "\\" + fileName)
     os.startfile(folder_path + "\\" + fileName)
 
-    totals = [totalViews, totalHovers, totalClicks]
 
-    return totals, videoAds, fileName
+    return videoAds, fileName
 
 def addEmailToSheet(sheet1, style, style2, x, addUnique):
     global emailImp
