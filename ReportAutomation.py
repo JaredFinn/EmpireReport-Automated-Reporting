@@ -31,7 +31,7 @@ IMPORTVIEWS = []
 IMPORTHOVERS = []
 IMPORTCLICKS = []
 ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dying'
-                  ,'AMERICAN CHEMISTRY COUNCIL', 'American Legal Finance Association', 'American Progressive Plastic Bag Alliance'
+                  ,'AMERICAN CHEMISTRY COUNCIL','AMERICAN INVESTMENT COUNCIL', 'American Legal Finance Association', 'American Progressive Plastic Bag Alliance'
                   ,'API', 'ASPCA', 'Astorino', 'Avangrid - Arch Street Communications', 'Back to Bowling'
                   ,'BASK', 'BE FAIR TO DIRECT CARE', 'BERLINROSEN ANTI-FRAUD LAWS', 'Bet on NY'
                   ,'BLUE COLLAR COALITION', 'BP AMERICAS', 'Building & Construction Trades of Greater New York'
@@ -47,7 +47,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'GSG Criminal Justice Reform', 'GSG NYABA', 'HANYS', 'House', 'HTC ADAMS IE', 'IPPNY'
                   ,'JUUL Labs', 'KWATRA', 'Linnea Empire Test', 'Long Island Association', 'Manhattan Chamber of Commerce'
                   ,'MARATHON', 'MASK UP AMERICA', 'Metropolitan Public Strategies', 'MOLINARO', 'MPAA'
-                  ,'NEW YORK YANKEES', 'New Yorkers for Clean Water and Jobs', 'New Yorkers for Responsible Gaming', 'New Yorkers United for Justice'
+                  ,'NEW YORK YANKEES', 'New Yorkers for Clean Water and Jobs', 'New Yorkers for Responsible Gaming', 'New Yorkers United for Justice', 'NY Auto Brokers Association'
                   ,'NY GAMING ASSOCIATION', 'NY HEALTH ACT', 'NY League of Conservation Voters', 'NY State Industries for the Disabled'
                   ,'NY STATE WEAR A MASK CAMPAIGN', 'NYC CHARTER SCHOOLS', 'NYS Health Foundation GSG', 'NYSANA Nurse Anesthetists'
                   ,'NYSCOP L POLITI', 'NYSCOPBA', 'NYSPSP', 'NYSUT', 'NYTHA', 'Ostroff Associates', 'PARTNERSHIP FOR NYC'
