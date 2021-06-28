@@ -166,7 +166,6 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
       email.insert(END, "Thus-far the banner ads have generated " + totalAdImp + " impressions, " + totalAdHovers + " hovers, and " + totalAdClicks + " link clicks.\n")
       videoAds = False
 
-  
   if((addEmail == True) & (addLink == False) & (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
       if(uniqueEmail.get() == True):
@@ -241,6 +240,9 @@ def updateEmail():
   global grandTotalClicks 
   global totalUniqueImp
   global totalUniqueClicks
+  global addLink
+  global addEmail
+  global addTweets
 
   print(folder_path + "/" + fileName)
   wb = xlrd.open_workbook(folder_path + "/" + fileName)
@@ -250,6 +252,13 @@ def updateEmail():
 
   for i in range(sheet.nrows):
     if("Advertisement" in sheet.cell_value(i, 0)):
+      if(addLink == False and addEmail == False and addTweets == False):
+        while("TOTAL:" not in sheet.cell_value(i, 0)):
+          i = i+1
+        totalAdImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
+        totalAdHovers = '{:,.0f}'.format(float(sheet.cell_value(i, 2)))
+        totalAdClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
+      else:
         while("SUBTOTAL:" not in sheet.cell_value(i, 0)):
           i = i+1
         totalAdImp = '{:,.0f}'.format(float(sheet.cell_value(i, 1)))
