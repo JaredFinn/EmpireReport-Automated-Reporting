@@ -13,12 +13,6 @@ import smtplib, ssl
 import excel as excelTab
 import email, smtplib, ssl
 
-from email import encoders
-from email.mime.base import MIMEBase
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-
-
 
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
 CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
@@ -43,7 +37,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'CWA - BERLINROSEN', 'Dev Site Test By Saad', "DON'T BLOCK NY BUILDING", 'Education Equity Campaign'
                   ,'Elise Stefanik', 'EMPIRE CITY CASINO', 'Empire Report', 'Erica Video', 'Farm Bureau'
                   ,'Friends of the BQX', 'Frontier', 'FWD.us', 'GNYHA', 'Google Adwords', 'GSG Congestion Pricing'
-                  ,'GSG Criminal Justice Reform', 'GSG NYABA', 'HANYS', 'House', 'HTC ADAMS IE', 'IPPNY'
+                  ,'GSG Criminal Justice Reform', 'GSG NYABA', 'HANYS', 'Healthcare Education Project', 'House', 'HTC ADAMS IE', 'IPPNY'
                   ,'JUUL Labs', 'KWATRA', 'Linnea Empire Test', 'Long Island Association', 'Manhattan Chamber of Commerce'
                   ,'MARATHON', 'MASK UP AMERICA', 'Metropolitan Public Strategies', 'MOLINARO', 'MPAA'
                   ,'NEW YORK YANKEES', 'New Yorkers for Clean Water and Jobs', 'New Yorkers for Responsible Gaming', 'New Yorkers United for Justice', 'NY Auto Brokers Association'
@@ -52,7 +46,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'NYSCOP L POLITI', 'NYSCOPBA', 'NYSPSP', 'NYSUT', 'NYTHA', 'Ostroff Associates', 'PARTNERSHIP FOR NYC'
                   ,'PARTNERSHIP FOR SAFE MEDICINE', 'Patrick B. Jenkins & Associates', 'PEF', 'PHRMA', 'Project Guardianship'
                   ,'psacentral.org', 'QUEENS Chamber of Commerce', 'REALITIES OF SINGLE PAYER', 'REBNY', 'Rebuild NY Now'
-                  ,'Rechler Kivvit', 'Reclaim NY', 'Retail Council', 'SANDS Kivvit', "Saratoga Harness Horseperson's Assocation"
+                  ,'Rechler Kivvit', 'Reclaim NY', 'Retail Council', 'Rochester AAU', 'SANDS Kivvit', "Saratoga Harness Horseperson's Assocation"
                   ,'Saratoga Mentoring', 'SEIU', 'Shenker Russo Clark', 'SIEMENS', "Sizmek's services ads", 'SKD FLEXIBLE WORK'
                   ,'SKD- RESORTS WORLD CASINO', 'SMART APPROACHES TO MARIJUANA', 'Strong Leadership NYC - Eric Adams', 'SUNY Empire State College'
                   ,'The Airbnb Tax', 'The Brooklyn Hospital Center', 'TRANSPORT WORKERS UNION', 'Trucking Association of New York'
@@ -103,7 +97,7 @@ nameInput.place(x=100, y=100)
 def drop(event):
         entry_sv.set(event.data)
 
-dir = tk.Label(tab2, text="Drop CSV file from Broadstreet Ads, select program name and press report.\nFill out any remaining stats, save file, and press construct email.")
+dir = tk.Label(tab2, text="Drop CSV file from Broadstreet Ads and select program name and info.\nFill out any remaining stats, save file, and press construct email.")
 dir.pack(pady=10)
 
 entry_sv = StringVar()
@@ -369,8 +363,8 @@ excelBtn.place(x=350, y=175)
 constructBtn = tk.Button(tab2, text='Construct Email', command= lambda: updateEmail())
 constructBtn.place(x=425, y=175)
 
-toLabel = tk.Label(emailFrame, text="To:", bg="white")
-toLabel.place(x=240, y=240)
+toLabel = tk.Label(emailFrame, text="To Email:", bg="white")
+toLabel.place(x=210, y=240)
 
 emailEntry = tk.Entry(emailFrame, textvariable=to_email, width=30)
 emailEntry.place(x=270, y=240)
