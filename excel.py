@@ -85,7 +85,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     
     x = len(IMPORTNAMES)+6
 
-    if(addEmail == True | addLink == True | addTweets == True):
+    if(addEmail == True or addLink == True or addTweets == True):
         sheet1.write(x, 0, "SUBTOTAL:", style)
         adImp = x+1
         sheet1.write(x, 1, xlwt.Formula("SUM(B7:B{})".format(x)), style2)
