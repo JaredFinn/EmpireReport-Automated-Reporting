@@ -160,34 +160,34 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
       email.insert(END, "Thus-far the banner ads have generated " + totalAdImp + " impressions, " + totalAdHovers + " hovers, and " + totalAdClicks + " link clicks.\n")
       videoAds = False
 
-  if((addEmail == True) & (addLink == False) & (addTweets == False)):
+  if((addEmail == True) and (addLink == False) and (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
       if(uniqueEmail.get() == True):
         email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
-  elif((addEmail == False) & (addLink == True) & (addTweets == False)):
+  elif((addEmail == False) and (addLink == True) and (addTweets == False)):
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
-  elif((addEmail == False) & (addLink == False) & (addTweets == True)):
+  elif((addEmail == False) and (addLink == False) and (addTweets == True)):
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
-  elif((addEmail == True) & (addLink == True) & (addTweets == False)):
+  elif((addEmail == True) and (addLink == True) and (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
       if(uniqueEmail.get() == True):
         email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
-  elif((addEmail == False) & (addLink == True) & (addTweets == True)):
+  elif((addEmail == False) and (addLink == True) and (addTweets == True)):
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
-  elif((addEmail == True) & (addLink == False) & (addTweets == True)):
+  elif((addEmail == True) and (addLink == False) and (addTweets == True)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
       if(uniqueEmail.get() == True):
         email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
-  elif((addEmail == True) & (addLink == True) & (addTweets == True)):
+  elif((addEmail == True) and (addLink == True) and (addTweets == True)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
       if(uniqueEmail.get() == True):
         email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")

@@ -61,7 +61,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     j = 6
     for i in IMPORTNAMES:
         sheet1.write(j, 0, i, style)
-        if(("Video" in i) | ("video" in i)):
+        if(("Video" in i) or ("video" in i)):
             videoAds = True
         j = j+1
 
