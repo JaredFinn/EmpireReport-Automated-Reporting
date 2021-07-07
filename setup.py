@@ -1,4 +1,5 @@
-from distutils.core import setup
-import py2exe
-
-setup(console=['reportautomation.py'])
+from setuptools import setup
+setup(
+    app=["ReportAutomation.py"],
+    setup_requires=["py2app"],
+)
