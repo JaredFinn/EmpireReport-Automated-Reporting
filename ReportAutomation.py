@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter.ttk import Combobox, Style
 from tkinter import *
 from tkinter import filedialog
+from tkcalendar import Calendar
 from TkinterDnD2 import *
 import csv
 import xlrd
@@ -19,6 +20,8 @@ CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
 VIEW_ID = '115062057'
 CLICK_VIEWS = []
 PAGES = []
+DATES = []
+UNIQUEDATES = []
 IMPORTNAMES = []
 IMPORTVIEWS = []
 IMPORTHOVERS = []
@@ -87,9 +90,9 @@ all = '/'
 
 ##Excel Tab
 AdvertiserLabel=Label(tab2, text="Program")
-AdvertiserLabel.place(x=40, y=100)
+AdvertiserLabel.place(x=40, y=105)
 nameInput = Combobox(tab2, values=ads)
-nameInput.place(x=100, y=100)
+nameInput.place(x=100, y=105)
 
 
 
@@ -336,17 +339,69 @@ def save():
   global folder_path
   folder_path = filedialog.askdirectory(initialdir='C:\\')
   dirLabel.insert(END, folder_path)
+
+x=15
+y=230
+
+def chooseDates():
+  calRoot = Tk()
+ 
+  # Set geometry
+  calRoot.geometry("400x400")
   
+  dateDir = tk.Label(tab2, text="Choose and add the dates the program was sponsored in the email")
+  dateDir.pack(pady=10)
+
+  # Add Calendar
+  cal = Calendar(calRoot, selectmode = 'day',
+                year = 2020, month = 5,
+                day = 22)
+  
+  cal.pack(pady = 20)
+
+
+  def add_date(x,y,unique):
+    if(unique == True):
+      UNIQUEDATES.append(cal.get_date())
+      DATES.append(cal.get_date() + "*")
+    else:
+      DATES.append(cal.get_date())
+    for i in DATES:
+      y = y + 20
+      if(y == 350):
+        y = 250
+        x = x + 50
+      Label(calRoot, text="{}".format(i)).place(x=x, y=y)
+    print(DATES)
+
+  # Add Button and Label
+  Button(calRoot, text = "Add Date",
+        command =lambda: add_date(x,y,False)).place(x=90, y=220)
+    # Add Button and Label
+  Button(calRoot, text = "Add Unqiue Email Date",
+        command =lambda: add_date(x,y,True)).place(x=175, y=220)
+
+  date = Label(calRoot, text = "")
+  date.pack(pady = 20)
+
+
+  calRoot.mainloop()
+  
+  
+
+calenderPhoto = PhotoImage(file = r"C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\images\icons8-calendar-24.png")
+dateBtn = tk.Button(tab2, text="date", image=calenderPhoto, width=20, height=20, borderwidth=0, command=lambda: chooseDates())
+dateBtn.place(x=310, y=105)
 
 uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
 emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addUnique())
-emailCheck.place(x=255, y=100)
+emailCheck.place(x=255, y=105)
 linkVar = BooleanVar()
 linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
-linkCheck.place(x=320, y=100)
+linkCheck.place(x=340, y=105)
 tweetVar = BooleanVar()
 tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
-tweetCheck.place(x=435, y=100)
+tweetCheck.place(x=455, y=105)
 
 saveLabel = tk.Label(tab2, text='Choose save location prior to reporting:')
 saveLabel.place(x=25, y=150)

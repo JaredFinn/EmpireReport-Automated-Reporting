@@ -68,19 +68,19 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     j = 6
     for i in IMPORTVIEWS:
         totalViews += int(i)
-        sheet1.write(j, 1, i, style2)
+        sheet1.write(j, 1, float(i), style2)
         j = j+1
 
     j = 6
     for i in IMPORTHOVERS:
         totalHovers += int(i)
-        sheet1.write(j, 2, i, style2)
+        sheet1.write(j, 2, float(i), style2)
         j = j+1
 
     j = 6
     for i in IMPORTCLICKS:
         totalClicks += int(i)
-        sheet1.write(j, 3, i, style2)
+        sheet1.write(j, 3, float(i), style2)
         j = j+1
     
     x = len(IMPORTNAMES)+6
