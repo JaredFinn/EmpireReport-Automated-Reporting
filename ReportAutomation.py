@@ -147,7 +147,7 @@ def excelReport():
   addUnique = uniqueEmail.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path)
+  videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES)
 
 def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
   
@@ -363,14 +363,14 @@ def chooseDates():
   def add_date(x,y,unique):
     if(unique == True):
       UNIQUEDATES.append(cal.get_date())
-      DATES.append(cal.get_date() + "*")
+      DATES.append(cal.get_date() + " Unique Email")
     else:
       DATES.append(cal.get_date())
     for i in DATES:
       y = y + 20
       if(y == 350):
         y = 250
-        x = x + 50
+        x = x + 80
       Label(calRoot, text="{}".format(i)).place(x=x, y=y)
     print(DATES)
 
@@ -386,7 +386,6 @@ def chooseDates():
 
 
   calRoot.mainloop()
-  
   
 
 calenderPhoto = PhotoImage(file = r"C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\images\icons8-calendar-24.png")

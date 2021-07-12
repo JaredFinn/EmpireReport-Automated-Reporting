@@ -20,7 +20,7 @@ linkClicks= 0
 tweetClicks = 0
 
 
-def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES):
     global adImp
     global emailImp
     global linkImp
@@ -94,7 +94,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     x = x + 1
     if(addEmail == True):
-        x = addEmailToSheet(sheet1, style, style2, x, addUnique)
+        x = addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES)
     if(addLink == True):
         x = addLinkToSheet(sheet1, style, style2, x)
     if(addTweets == True):
@@ -145,7 +145,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     return videoAds, fileName
 
-def addEmailToSheet(sheet1, style, style2, x, addUnique):
+def addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES):
     global emailImp
 
     sheet1.write(x+2, 0, "Email Blast w/ sponsored message", style)
@@ -153,44 +153,68 @@ def addEmailToSheet(sheet1, style, style2, x, addUnique):
     sheet1.write(x+2, 3, "Clicks", style2)
     date = datetime.date(datetime.now())
 
-    if(addUnique == True):
-        sheet1.write(x+8, 0, "{} Unique Blast".format(date), style)
-        sheet1.write(x+8, 1, 0, style2)
-        sheet1.write(x+8, 3, 0, style2)
-    sheet1.write(x+7, 0, "{}".format(date), style)
-    sheet1.write(x+6, 0, "{}".format(date-timedelta(days = 1)), style)
-    sheet1.write(x+5, 0, "{}".format(date-timedelta(days = 2)), style)
-    sheet1.write(x+4, 0, "{}".format(date-timedelta(days = 3)), style)
-    sheet1.write(x+3, 0, "{}".format(date-timedelta(days = 4)), style)
+    zStart=3
+    z=3
 
-    
-    sheet1.write(x+7, 1, 0, style2)
-    sheet1.write(x+6, 1, 0, style2)
-    sheet1.write(x+5, 1, 0, style2)
-    sheet1.write(x+4, 1, 0, style2)
-    sheet1.write(x+3, 1, 0, style2)
+    for i in DATES:
+        if("Unique" in i):
+            sheet1.write(x+z, 0, "{}".format(i), style)
+        else:
+            sheet1.write(x+z, 0, "{} Email".format(i), style)
+        sheet1.write(x+z, 1, 0, style2)
+        sheet1.write(x+z, 3, 0, style2)
+        z = z+1
+    #for i in UNIQUEDATES:
+    #    sheet1.write(x+z, 0, "{} Unique Email Blast".format(i), style)
+    #    sheet1.write(x+z, 1, 0, style2)
+    #    sheet1.write(x+z, 3, 0, style2)
+    #    z = z+1
 
-    
-    sheet1.write(x+7, 3, 0, style2)
-    sheet1.write(x+6, 3, 0, style2)
-    sheet1.write(x+5, 3, 0, style2)
-    sheet1.write(x+4, 3, 0, style2)
-    sheet1.write(x+3, 3, 0, style2)
 
-    if(addUnique == True):
-        sheet1.write(x+9, 0, "SUBTOTAL:", style)
-        emailImp = x+9+1
-        sheet1.write(x+9, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+9)), style2)
-        #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-        sheet1.write(x+9, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+9)), style2)
-    else:
-        sheet1.write(x+8, 0, "SUBTOTAL:", style)
-        emailImp = x+8+1
-        sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
-        #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-        sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
+    #if(addUnique == True):
+    #    sheet1.write(x+8, 0, "{} Unique Blast".format(date), style)
+    #    sheet1.write(x+8, 1, 0, style2)
+    #    sheet1.write(x+8, 3, 0, style2)
+    #sheet1.write(x+7, 0, "{}".format(date), style)
+    #sheet1.write(x+6, 0, "{}".format(date-timedelta(days = 1)), style)
+    #sheet1.write(x+5, 0, "{}".format(date-timedelta(days = 2)), style)
+    #sheet1.write(x+4, 0, "{}".format(date-timedelta(days = 3)), style)
+    #sheet1.write(x+3, 0, "{}".format(date-timedelta(days = 4)), style)
+#
+    #
+    #sheet1.write(x+7, 1, 0, style2)
+    #sheet1.write(x+6, 1, 0, style2)
+    #sheet1.write(x+5, 1, 0, style2)
+    #sheet1.write(x+4, 1, 0, style2)
+    #sheet1.write(x+3, 1, 0, style2)
+#
+    #
+    #sheet1.write(x+7, 3, 0, style2)
+    #sheet1.write(x+6, 3, 0, style2)
+    #sheet1.write(x+5, 3, 0, style2)
+    #sheet1.write(x+4, 3, 0, style2)
+    #sheet1.write(x+3, 3, 0, style2)
 
-    x = x+9
+    sheet1.write(x+z, 0, "SUBTOTAL:", style)
+    emailImp = x+z+1
+    sheet1.write(x+z, 1, xlwt.Formula("SUM(B{}:B{})".format(x+zStart+1,x+z)), style2)
+    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
+    sheet1.write(x+z, 3, xlwt.Formula("SUM(D{}:D{})".format(x+zStart+1,x+z)), style2)
+
+    #if(addUnique == True):
+    #    sheet1.write(x+9, 0, "SUBTOTAL:", style)
+    #    emailImp = x+9+1
+    #    sheet1.write(x+9, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+9)), style2)
+    #    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
+    #    sheet1.write(x+9, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+9)), style2)
+    #else:
+    #    sheet1.write(x+8, 0, "SUBTOTAL:", style)
+    #    emailImp = x+8+1
+    #    sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
+    #    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
+    #    sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
+#
+    x = x+z
     return x
 
 def addLinkToSheet(sheet1, style, style2, x):
