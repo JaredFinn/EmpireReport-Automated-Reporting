@@ -20,7 +20,7 @@ linkClicks= 0
 tweetClicks = 0
 
 
-def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES, storyTitle):
     global adImp
     global emailImp
     global linkImp
@@ -96,7 +96,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     if(addEmail == True):
         x = addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES)
     if(addLink == True):
-        x = addLinkToSheet(sheet1, style, style2, x)
+        x = addLinkToSheet(sheet1, style, style2, x, storyTitle)
     if(addTweets == True):
         x = addTweetsToSheet(sheet1, style, style2, x)
 
@@ -151,7 +151,6 @@ def addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES):
     sheet1.write(x+2, 0, "Email Blast w/ sponsored message", style)
     sheet1.write(x+2, 1, "Impressions", style2)
     sheet1.write(x+2, 3, "Clicks", style2)
-    date = datetime.date(datetime.now())
 
     zStart=3
     z=3
@@ -217,13 +216,13 @@ def addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES):
     x = x+z
     return x
 
-def addLinkToSheet(sheet1, style, style2, x):
+def addLinkToSheet(sheet1, style, style2, x, storyTitle):
     global linkImp
     sheet1.write(x+2, 0, "Sponsored Link", style)
     sheet1.write(x+2, 1, "Impressions", style2)
     sheet1.write(x+2, 3, "Clicks", style2)
 
-    sheet1.write(x+3, 0, "Title of link", style)
+    sheet1.write(x+3, 0, "{}".format(storyTitle.get()), style)
     linkImp = x+3+1
 
     sheet1.write(x+3, 1, 0, style2)

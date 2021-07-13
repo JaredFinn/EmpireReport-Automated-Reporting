@@ -136,6 +136,7 @@ def excelReport():
   global totalsClicks
   global fileName
   global folder_path
+  global storyTitle
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -147,7 +148,7 @@ def excelReport():
   addUnique = uniqueEmail.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES)
+  videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES, storyTitle)
 
 def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
   
@@ -165,8 +166,8 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
 
   if((addEmail == True) and (addLink == False) and (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
-      if(uniqueEmail.get() == True):
-        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
+      #if(uniqueEmail.get() == True):
+      #  email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) and (addLink == True) and (addTweets == False)):
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
@@ -176,8 +177,8 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) and (addLink == True) and (addTweets == False)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
-      if(uniqueEmail.get() == True):
-        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
+      #if(uniqueEmail.get() == True):
+      #  email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == False) and (addLink == True) and (addTweets == True)):
@@ -186,14 +187,14 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) and (addLink == False) and (addTweets == True)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
-      if(uniqueEmail.get() == True):
-        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
+      #if(uniqueEmail.get() == True):
+      #  email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
   elif((addEmail == True) and (addLink == True) and (addTweets == True)):
       email.insert(END, "The sponsored message in the daily email newsletter has generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
-      if(uniqueEmail.get() == True):
-        email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
+      #if(uniqueEmail.get() == True):
+      #  email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
       email.insert(END, "The sponsored story on Empire Report has generated " + totalLinkImp + " impressions and " + totalLinkClicks + " link clicks.\n")
       email.insert(END, "The sponsored tweets on Empire Report's page have generated " + totalTweetImp + " impressions and " + totalTweetClicks + " link clicks.\n")
       email.insert(END, "TOTAL: " + grandTotalImp + " impressions and " + grandTotalClicks + " link clicks\n")
@@ -331,9 +332,16 @@ def sendEmail():
 
 emailVar = BooleanVar()
 
-def addUnique():
-  global uniqueEmailCheck
-  uniqueEmailCheck.place(x=255, y=125)
+#def addUnique():
+#  global uniqueEmailCheck
+#  uniqueEmailCheck.place(x=255, y=125)
+
+storyTitle = StringVar()
+
+def addTitle():
+  global storyTitle
+  storyTitle.set("Enter Title..")
+  Entry(tab2, textvariable=storyTitle, width=15).place(x=340, y=125)
 
 def save():
   global folder_path
@@ -392,11 +400,12 @@ calenderPhoto = PhotoImage(file = r"C:\Jared\EmpireReport\EmpireReport-Automated
 dateBtn = tk.Button(tab2, text="date", image=calenderPhoto, width=20, height=20, borderwidth=0, command=lambda: chooseDates())
 dateBtn.place(x=310, y=105)
 
-uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
-emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addUnique())
+#uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
+#emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addUnique())
+emailCheck = Checkbutton(tab2, text="Email", variable=emailVar)
 emailCheck.place(x=255, y=105)
 linkVar = BooleanVar()
-linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar)
+linkCheck = Checkbutton(tab2, text="Sponsored Link", variable=linkVar, command= lambda: addTitle())
 linkCheck.place(x=340, y=105)
 tweetVar = BooleanVar()
 tweetCheck = Checkbutton(tab2, text="Tweets", variable=tweetVar)
