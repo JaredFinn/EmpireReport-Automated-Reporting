@@ -52,6 +52,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'TRUTH ABOUT ORSTED', 'United Way', 'United Way Greater Capital Region', 'VALCOUR WIND ENERGY', 'VINCENZO GARDINO', 'WAMC', 'WESTERN OTB BATAVIA DOWNS']
    
 
+# creating and organizing tkinter window and frames within UI
 root = TkinterDnD.Tk()
 root.title("Report Automation")
 
@@ -62,13 +63,11 @@ frame = tk.Frame(root, bg="lightgrey")
 frame.place(relwidth=0.9, relheight=0.4, relx=0.05, rely=0.05)
 
 tabControl = ttk.Notebook(frame)
-
 tab2 = ttk.Frame(tabControl)
 
 tabControl.add(tab2, text ='Excel Report')
 tabControl.grid(padx=50)
 tabControl.pack(expand = 1, fill ="both")
-
 
 emailFrame = tk.Frame(root, bg="white")
 emailFrame.place(relwidth=0.9, relheight=0.45, relx=0.05, rely=0.5)
@@ -80,25 +79,20 @@ email.pack(padx=40, pady=40)
 
 data=("Current Story", "Past Story", "Ad Report")
 ads=ADPROGRAMS
-
  
 all = '/'  
 
-##Excel Tab
+# Main Tab
 AdvertiserLabel=Label(tab2, text="Program")
 AdvertiserLabel.place(x=40, y=105)
 nameInput = Combobox(tab2, values=ads)
 nameInput.place(x=100, y=105)
 
-
-
-
+# Drag and Drop Event Handling
 def drop(event):
         entry_sv.set(event.data)
-
 dir = tk.Label(tab2, text="Drop CSV file from Broadstreet Ads and select program name and info.\nFill out any remaining stats, save file, and press construct email.")
 dir.pack(pady=10)
-
 entry_sv = StringVar()
 entry_sv.set('Drop Here...')
 entry = Entry(tab2, textvar=entry_sv, width=80)
@@ -107,8 +101,7 @@ entry.drop_target_register(DND_FILES)
 entry.dnd_bind('<<Drop>>', drop)
 
 
-##method to create excel file and save it in location specified in excel.py
-##creates total values to use for email draft
+# Method to create excel file with given data, returns data needed to find file and recognize stats
 addEmail = False
 addLink = False
 addTweets = False
@@ -136,21 +129,24 @@ def excelReport():
   DATES = []
   UNIQUEDATES = []
 
+# Method to construct the email being sent to client, retrieves all 
+# data needed and sorts through what info is needed to add to the email draft
 def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
-  
+  email.delete(1.0, END)
   global uniqueEmail
   
   email.insert(END, "Recipient,\n\n")
   email.insert(END, "I hope that you are well!\n")
   email.insert(END, "I wanted to give you an update on the most recent campaign stats for "+ title + ":\n\n")
+  # Checks for video ad vs banner ad  
   if(videoAds == True):
       email.insert(END, "Thus-far the video ads have generated " + totalAdImp + " impressions, " + totalAdHovers + " hovers, and " + totalAdClicks + " link clicks.\n")
       videoAds = False
   else:
       email.insert(END, "Thus-far the banner ads have generated " + totalAdImp + " impressions, " + totalAdHovers + " hovers, and " + totalAdClicks + " link clicks.\n")
       videoAds = False
-
   if((addEmail == True) and (addLink == False) and (addTweets == False)):
+      # If there is a unique email, drafts different grammar and stats opposed to no unique emails
       if(uniqueEmail == True):
         email.insert(END, "The sponsored message in the daily email newsletter and unique email have generated " + totalEmailImp + " impressions and " + totalEmailClicks + " link clicks.\n")
         email.insert(END, "The sponsored email blast alone has generated " + totalUniqueImp + " impressions and " + totalUniqueClicks + " link clicks.\n")
@@ -200,8 +196,10 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
   email.insert(END, "Empire Report\n")
   email.insert(END, "917-565-3378")
 
+# Initialization
 totalAdImp,totalAdHovers,totalAdClicks,totalEmailImp,totalEmailClicks,totalLinkImp,totalLinkClicks,totalTweetImp,totalTweetClicks,grandTotalImp,grandTotalHovers,grandTotalClicks,totalUniqueImp,totalUniqueClicks = 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
+# Method to retrieve new total data from excel sheet after input to assign to variables to use for email draft
 def updateEmail():
   global folder_path,fileName,totalAdImp,totalAdHovers,totalAdClicks,totalEmailImp,totalEmailClicks,totalLinkImp,totalLinkClicks,totalTweetImp,totalTweetClicks,grandTotalImp,grandTotalHovers,grandTotalClicks,totalUniqueImp,totalUniqueClicks,addLink,addEmail,addTweets, uniqueEmail
 
@@ -212,6 +210,7 @@ def updateEmail():
   sheet.cell_value(0, 0)
 
   for i in range(sheet.nrows):
+    # Searches for constant strings within sheet row to find correct values
     if("Advertisement" in sheet.cell_value(i, 0)):
       if(addLink == False and addEmail == False and addTweets == False):
         while("TOTAL:" not in sheet.cell_value(i, 0)):
@@ -249,7 +248,7 @@ def updateEmail():
         grandTotalClicks = '{:,.0f}'.format(float(sheet.cell_value(i, 3)))
   constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks)
 
-
+# Reads in data numbers from advertisement csv from broadstreet
 def importData():
   with open(entry_sv.get(), 'r') as file:
     reader = csv.reader(file)
@@ -266,9 +265,7 @@ def importData():
 
 
 to_email = tk.StringVar()
-
-
-
+# Sends email to recipient
 def sendEmail():
   global folder_path,fileName,email
   sender_email = "ERautotesting@gmail.com"  # Enter your address
@@ -291,32 +288,26 @@ def sendEmail():
       smtp.login(sender_email, password)
       smtp.send_message(msg)
 
-
 emailVar = BooleanVar()
-
-#def addUnique():
-#  global uniqueEmailCheck
-#  uniqueEmailCheck.place(x=255, y=125)
-
 storyTitle = StringVar()
-
+# Add custom title for sponsored story
 def addTitle():
   global storyTitle
   storyTitle.set("Enter Title..")
   Entry(tab2, textvariable=storyTitle, width=15).place(x=340, y=125)
 
+# Opens file explorer in C drive to choose save location
 def save():
   global folder_path
   folder_path = filedialog.askdirectory(initialdir='C:\\')
   dirLabel.insert(END, folder_path)
 
 
+# Interactive componenets of the tkinter window
 calenderPhoto = PhotoImage(file = r"C:\Jared\EmpireReport\EmpireReport-Automated-Reporting\images\icons8-calendar-24.png")
 dateBtn = tk.Button(tab2, text="date", image=calenderPhoto, width=20, height=20, borderwidth=0, command=lambda:  calender.main(UNIQUEDATES, DATES))
 dateBtn.place(x=310, y=105)
 
-#uniqueEmailCheck = Checkbutton(tab2, text="Unique Email", variable=uniqueEmail)
-#emailCheck = Checkbutton(tab2, text="Email", variable=emailVar, command= lambda: addUnique())
 emailCheck = Checkbutton(tab2, text="Email", variable=emailVar)
 emailCheck.place(x=255, y=105)
 linkVar = BooleanVar()

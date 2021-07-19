@@ -3,11 +3,9 @@ from tkinter import *
 from tkcalendar import Calendar
 
 
-
+# Calender Tk window to choose dates for email blasts and unique emails
 def main(UNIQUEDATES, DATES):
-
     calRoot = Tk()
-
     # Set geometry
     calRoot.geometry("400x600")
 
@@ -23,15 +21,12 @@ def main(UNIQUEDATES, DATES):
 
     x=15
     y=270
-
-
     # Add Button and Label
     Button(calRoot, text = "Add Date",
         command =lambda: add_date(x,y,False)).place(x=90, y=260)
     # Add Button and Label
     Button(calRoot, text = "Add Unqiue Email Date",
         command =lambda: add_date(x,y,True)).place(x=175, y=260)
-
 
     date = Label(calRoot, text = "")
     date.pack(pady = 20)

@@ -1,14 +1,9 @@
 # Writing to an excel 
 # sheet using Python
-import time
 import xlwt
 from xlwt import Workbook
-import xlrd
-from datetime import datetime, timedelta
-from datetime import date
-import random
+from datetime import datetime
 import os
-
 
 adImp = 0
 emailImp = 0
@@ -19,7 +14,8 @@ emailClicks = 0
 linkClicks= 0
 tweetClicks = 0
 
-
+# Method that organizes the creation of the excel report with given data
+# and completes the report with use of other methods
 def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, folder_path, DATES, UNIQUEDATES, storyTitle):
     global adImp
     global emailImp
@@ -59,6 +55,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     totalHovers = 0
     totalClicks = 0
     j = 6
+    # Loops to write data from advertisement sheet
     for i in IMPORTNAMES:
         sheet1.write(j, 0, i, style)
         if(("Video" in i) or ("video" in i)):
@@ -85,6 +82,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     
     x = len(IMPORTNAMES)+6
 
+    # Adds SUBTOTAL if needed
     if(addEmail == True or addLink == True or addTweets == True):
         sheet1.write(x, 0, "SUBTOTAL:", style)
         adImp = x+1
@@ -100,7 +98,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     if(addTweets == True):
         x = addTweetsToSheet(sheet1, style, style2, x)
 
-
+    # Adds GRANDTOTAL if needed
     if(addEmail == True or addLink == True or addTweets == True):
         sheet1.write(x+2, 0, "GRAND TOTAL:", style)
         if(addEmail == True and addLink == True and addTweets == True):
@@ -142,9 +140,9 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     wb.save(folder_path + "\\" + fileName)
     os.startfile(folder_path + "\\" + fileName)
 
-
     return videoAds, fileName
 
+# Method to add email section to report
 def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
     global emailImp
 
@@ -155,6 +153,7 @@ def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
     zStart=3
     z=3
 
+    # Differentiates between given unique email or regular email to display correct output
     for i in DATES:
         if("Unique" in i):
             sheet1.write(x+z, 0, "{}".format(i), style)
@@ -163,59 +162,16 @@ def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
         sheet1.write(x+z, 1, 0, style2)
         sheet1.write(x+z, 3, 0, style2)
         z = z+1
-    #for i in UNIQUEDATES:
-    #    sheet1.write(x+z, 0, "{} Unique Email Blast".format(i), style)
-    #    sheet1.write(x+z, 1, 0, style2)
-    #    sheet1.write(x+z, 3, 0, style2)
-    #    z = z+1
-
-
-    #if(addUnique == True):
-    #    sheet1.write(x+8, 0, "{} Unique Blast".format(date), style)
-    #    sheet1.write(x+8, 1, 0, style2)
-    #    sheet1.write(x+8, 3, 0, style2)
-    #sheet1.write(x+7, 0, "{}".format(date), style)
-    #sheet1.write(x+6, 0, "{}".format(date-timedelta(days = 1)), style)
-    #sheet1.write(x+5, 0, "{}".format(date-timedelta(days = 2)), style)
-    #sheet1.write(x+4, 0, "{}".format(date-timedelta(days = 3)), style)
-    #sheet1.write(x+3, 0, "{}".format(date-timedelta(days = 4)), style)
-#
-    #
-    #sheet1.write(x+7, 1, 0, style2)
-    #sheet1.write(x+6, 1, 0, style2)
-    #sheet1.write(x+5, 1, 0, style2)
-    #sheet1.write(x+4, 1, 0, style2)
-    #sheet1.write(x+3, 1, 0, style2)
-#
-    #
-    #sheet1.write(x+7, 3, 0, style2)
-    #sheet1.write(x+6, 3, 0, style2)
-    #sheet1.write(x+5, 3, 0, style2)
-    #sheet1.write(x+4, 3, 0, style2)
-    #sheet1.write(x+3, 3, 0, style2)
-
+    
     sheet1.write(x+z, 0, "SUBTOTAL:", style)
     emailImp = x+z+1
     sheet1.write(x+z, 1, xlwt.Formula("SUM(B{}:B{})".format(x+zStart+1,x+z)), style2)
-    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
     sheet1.write(x+z, 3, xlwt.Formula("SUM(D{}:D{})".format(x+zStart+1,x+z)), style2)
 
-    #if(addUnique == True):
-    #    sheet1.write(x+9, 0, "SUBTOTAL:", style)
-    #    emailImp = x+9+1
-    #    sheet1.write(x+9, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+9)), style2)
-    #    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-    #    sheet1.write(x+9, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+9)), style2)
-    #else:
-    #    sheet1.write(x+8, 0, "SUBTOTAL:", style)
-    #    emailImp = x+8+1
-    #    sheet1.write(x+8, 1, xlwt.Formula("SUM(B{}:B{})".format(x+4,x+8)), style2)
-    #    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-    #    sheet1.write(x+8, 3, xlwt.Formula("SUM(D{}:D{})".format(x+4,x+8)), style2)
-#
     x = x+z
     return x
 
+# Method to add Link section to report
 def addLinkToSheet(sheet1, style, style2, x, storyTitle):
     global linkImp
     sheet1.write(x+2, 0, "Sponsored Link", style)
@@ -229,14 +185,10 @@ def addLinkToSheet(sheet1, style, style2, x, storyTitle):
 
     sheet1.write(x+3, 3, 0, style2)
 
-    #sheet1.write(x+4, 0, "SUBTOTAL:", style)
-    #sheet1.write(x+4, 1, xlwt.Formula("SUM(B{}:B{})".format(x+13,x+13)), style2)
-    #sheet1.write(x+9, 2, xlwt.Formula("SUM(C{}:C{})".format(x+3,x+7)), style2)
-    #sheet1.write(x+4, 3, xlwt.Formula("SUM(D{}:D{})".format(x+13,x+13)), style2)
-
     x = x+4
     return x
 
+# Method to add Tweets section to report
 def addTweetsToSheet(sheet1, style, style2, x):
     global tweetImp
     sheet1.write(x+2, 0, "Tweets", style)
