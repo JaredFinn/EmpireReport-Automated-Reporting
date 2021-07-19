@@ -35,7 +35,7 @@ ADPROGRAMS = ['A More Just NYC Kivvit', 'AARP', 'Adiply', 'AFL-CIO', 'Aid in Dyi
                   ,'Bull Moose Club', 'Business Council of Westchester', 'Butler Associates', 'Catskills Renewable Connector'
                   ,'Cats Round Table', 'CENTRO CROMINAL JUSTICE', 'CENTRO Taxpayers for Affordable New York'
                   ,'Charter Spectrum', 'child victims act GREENBERG', 'CITIZENS FOR PROGRESS', 'Claudia Tenney for Congress'
-                  ,'Clean Fuels NY Kivvit', 'Clyde Group NY for Pest Policy', 'Coalition for the Homeless', 'Coalition to Help Families (JACK BONNER)'
+                  ,'Clean Fuels NY Kivvit', 'Clean Path NY', 'Clyde Group NY for Pest Policy', 'Coalition for the Homeless', 'Coalition to Help Families (JACK BONNER)'
                   ,'Common Cause NY', 'Community Pharmacy Association of NYS', 'COMPASSION & CHOICES'
                   ,'Congressional Candidate', 'Cruelty Free International', 'CUNY', 'CUOMO FOR GOVERNOR'
                   ,'CWA - BERLINROSEN', 'Dev Site Test By Saad', "DON'T BLOCK NY BUILDING", 'Education Equity Campaign'
@@ -138,6 +138,7 @@ def excelReport():
   global fileName
   global folder_path
   global storyTitle
+  global DATES, UNIQUEDATES
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -150,6 +151,8 @@ def excelReport():
   email.delete(1.0, END)
   title = nameInput.get()
   videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES, storyTitle)
+  DATES = []
+  UNIQUEDATES = []
 
 def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, totalAdHovers, totalAdClicks, totalEmailImp, totalEmailClicks, totalLinkImp, totalLinkClicks, totalTweetImp, totalTweetClicks, grandTotalImp, grandTotalHovers, grandTotalClicks, totalUniqueImp, totalUniqueClicks):
   
