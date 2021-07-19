@@ -20,7 +20,7 @@ linkClicks= 0
 tweetClicks = 0
 
 
-def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, addUnique, folder_path, DATES, UNIQUEDATES, storyTitle):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, folder_path, DATES, UNIQUEDATES, storyTitle):
     global adImp
     global emailImp
     global linkImp
@@ -94,7 +94,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     x = x + 1
     if(addEmail == True):
-        x = addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES)
+        x = addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES)
     if(addLink == True):
         x = addLinkToSheet(sheet1, style, style2, x, storyTitle)
     if(addTweets == True):
@@ -145,7 +145,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     return videoAds, fileName
 
-def addEmailToSheet(sheet1, style, style2, x, addUnique, DATES, UNIQUEDATES):
+def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
     global emailImp
 
     sheet1.write(x+2, 0, "Email Blast w/ sponsored message", style)
