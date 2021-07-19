@@ -168,7 +168,7 @@ def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
     sheet1.write(x+z, 1, xlwt.Formula("SUM(B{}:B{})".format(x+zStart+1,x+z)), style2)
     sheet1.write(x+z, 3, xlwt.Formula("SUM(D{}:D{})".format(x+zStart+1,x+z)), style2)
 
-    x = x+z
+    x = x+z+1
     return x
 
 # Method to add Link section to report
