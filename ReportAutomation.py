@@ -1,24 +1,19 @@
-from email.message import EmailMessage
-from email.mime import text
 import tkinter as tk
 from tkinter import ttk
 from tkinter import *
-from tkinter.ttk import Combobox, Style
-from tkinter import *
+from tkinter.ttk import Combobox
 from tkinter import filedialog
-from tkcalendar import Calendar
 from TkinterDnD2 import *
+
+from email.message import EmailMessage
 import csv
 import xlrd
-import smtplib, ssl
 import excel as excelTab
+
 import calender as calender
-import email, smtplib, ssl
+import email, smtplib
 
 
-SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
-CLIENT_SECRETS_PATH = 'client_secrets.json' # Path to client_secrets.json file.
-VIEW_ID = '115062057'
 CLICK_VIEWS = []
 PAGES = []
 DATES = []
@@ -126,19 +121,7 @@ fileName = ""
 uniqueEmail = BooleanVar()
 folder_path = ""
 def excelReport():
-  global addEmail 
-  global addLink 
-  global addTweets 
-  global uniqueEmail
-  global title
-  global videoAds 
-  global totalsImpressions
-  global totalsHovers
-  global totalsClicks
-  global fileName
-  global folder_path
-  global storyTitle
-  global DATES, UNIQUEDATES
+  global addEmail,addLink,addTweets,uniqueEmail,title,videoAds,totalsImpressions,totalsHovers,totalsClicks,fileName,folder_path,storyTitle,DATES,UNIQUEDATES
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -210,41 +193,10 @@ def constructEmail(addEmail, addLink, addTweets, title, videoAds, totalAdImp, to
   email.insert(END, "Empire Report\n")
   email.insert(END, "917-565-3378")
 
-totalAdImp = 0
-totalAdHovers = 0
-totalAdClicks = 0
-totalEmailImp = 0
-totalEmailClicks = 0
-totalLinkImp = 0
-totalLinkClicks = 0
-totalTweetImp = 0
-totalTweetClicks = 0
-grandTotalImp = 0
-grandTotalHovers = 0
-grandTotalClicks = 0
-totalUniqueImp = 0
-totalUniqueClicks = 0
+totalAdImp,totalAdHovers,totalAdClicks,totalEmailImp,totalEmailClicks,totalLinkImp,totalLinkClicks,totalTweetImp,totalTweetClicks,grandTotalImp,grandTotalHovers,grandTotalClicks,totalUniqueImp,totalUniqueClicks = 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
 def updateEmail():
-  global folder_path
-  global fileName
-  global totalAdImp
-  global totalAdHovers
-  global totalAdClicks
-  global totalEmailImp
-  global totalEmailClicks
-  global totalLinkImp
-  global totalLinkClicks
-  global totalTweetImp
-  global totalTweetClicks
-  global grandTotalImp 
-  global grandTotalHovers 
-  global grandTotalClicks 
-  global totalUniqueImp
-  global totalUniqueClicks
-  global addLink
-  global addEmail
-  global addTweets
+  global folder_path,fileName,totalAdImp,totalAdHovers,totalAdClicks,totalEmailImp,totalEmailClicks,totalLinkImp,totalLinkClicks,totalTweetImp,totalTweetClicks,grandTotalImp,grandTotalHovers,grandTotalClicks,totalUniqueImp,totalUniqueClicks,addLink,addEmail,addTweets
 
   print(folder_path + "/" + fileName)
   wb = xlrd.open_workbook(folder_path + "/" + fileName)
@@ -310,9 +262,7 @@ to_email = tk.StringVar()
 
 
 def sendEmail():
-  global folder_path
-  global fileName
-  global email
+  global folder_path,fileName,email
   sender_email = "ERautotesting@gmail.com"  # Enter your address
   receiving_email = to_email.get()
   password = "EmpireReport"
