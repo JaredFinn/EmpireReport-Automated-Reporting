@@ -31,6 +31,17 @@ def main(UNIQUEDATES, DATES):
     date = Label(calRoot, text = "")
     date.pack(pady = 20)
 
+
+    for i in DATES:
+        y = y + 20
+        if(y == 550):
+            y = 290
+            x = x + 80
+        Label(calRoot, text="{}".format(i)).place(x=x, y=y)
+
+    x=15
+    y=270
+
     def add_date(x,y,unique):
         if(unique == True):
             UNIQUEDATES.append(cal.get_date())
