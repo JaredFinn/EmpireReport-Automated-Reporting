@@ -2,6 +2,8 @@ import tkinter
 from tkinter import *
 from tkcalendar import Calendar
 
+UNIQUEDATES=[]
+DATES=[]
 
 # Calender Tk window to choose dates for email blasts and unique emails
 def main(UNIQUEDATES, DATES):
@@ -59,3 +61,6 @@ def main(UNIQUEDATES, DATES):
     Button(calRoot, text= "Done", command=calRoot.destroy, width=10, height=2).place(x=290, y=535)
 
     calRoot.mainloop()
+
+if __name__ == "__main__":
+    main(UNIQUEDATES, DATES)

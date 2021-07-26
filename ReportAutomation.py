@@ -9,8 +9,8 @@ from email.message import EmailMessage
 import csv
 import xlrd
 import excel as excelTab
-
 import calender as calender
+import EmailData as EmailData
 import email, smtplib
 
 
@@ -18,6 +18,8 @@ CLICK_VIEWS = []
 PAGES = []
 DATES = []
 UNIQUEDATES = []
+EMAILIMPRESSIONS = []
+EMAILCLICKS = []
 IMPORTNAMES = []
 IMPORTVIEWS = []
 IMPORTHOVERS = []
@@ -125,6 +127,7 @@ def excelReport():
   addTweets = tweetVar.get()
   email.delete(1.0, END)
   title = nameInput.get()
+  EMAILIMPRESSIONS,EMAILCLICKS = EmailData.main(DATES)
   videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, folder_path, DATES, UNIQUEDATES, storyTitle)
   DATES = []
   UNIQUEDATES = []
