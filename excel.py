@@ -16,7 +16,7 @@ tweetClicks = 0
 
 # Method that organizes the creation of the excel report with given data
 # and completes the report with use of other methods
-def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, folder_path, DATES, UNIQUEDATES, storyTitle):
+def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, folder_path, DATES, UNIQUEDATES, storyTitle, EMAILIMPRESSIONS, EMAILCLICKS):
     global adImp
     global emailImp
     global linkImp
@@ -92,7 +92,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
 
     x = x + 1
     if(addEmail == True):
-        x = addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES)
+        x = addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES, EMAILIMPRESSIONS, EMAILCLICKS)
     if(addLink == True):
         x = addLinkToSheet(sheet1, style, style2, x, storyTitle)
     if(addTweets == True):
@@ -143,7 +143,7 @@ def createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, ad
     return videoAds, fileName
 
 # Method to add email section to report
-def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
+def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES, EMAILIMPRESSIONS, EMAILCLICKS):
     global emailImp
 
     sheet1.write(x+2, 0, "Email Blast w/ sponsored message", style)
@@ -154,13 +154,14 @@ def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES):
     z=3
 
     # Differentiates between given unique email or regular email to display correct output
-    for i in DATES:
-        if("Unique" in i):
-            sheet1.write(x+z, 0, "{}".format(i), style)
+    print(EMAILIMPRESSIONS)
+    for i, val in enumerate(DATES):
+        if("Unique" in val):
+            sheet1.write(x+z, 0, "{}".format(val), style)
         else:
-            sheet1.write(x+z, 0, "{} Email".format(i), style)
-        sheet1.write(x+z, 1, 0, style2)
-        sheet1.write(x+z, 3, 0, style2)
+            sheet1.write(x+z, 0, "{} Email".format(val), style)
+        #sheet1.write(x+z, 1, "{}".format(EMAILIMPRESSIONS[i]), style2)
+        #sheet1.write(x+z, 3, "{}".format(EMAILCLICKS[i]), style2)
         z = z+1
     
     sheet1.write(x+z, 0, "SUBTOTAL:", style)

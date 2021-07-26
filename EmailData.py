@@ -16,8 +16,6 @@ def main(DATES):
     CImpressions = []
     CClicks = []
     ## Final data per date in array slot
-    finalImpressions = []
-    finalClicks = []
 
 
     Label(root, text="MailChimp", font= ('Century 12 underline')).place(x=45,y=10)
@@ -49,14 +47,15 @@ def main(DATES):
 
     def calculate():
         for i, val in enumerate(DATES):
-            finalImpressions.append(MImpressions[i].get() + CImpressions[i].get())
-            finalClicks.append(MClicks[i].get() + CClicks[i].get())
-        print(finalImpressions)
-        print(finalClicks)
-        
+            EMAILIMPRESSIONS.append(MImpressions[i].get() + CImpressions[i].get())
+            EMAILCLICKS.append(MClicks[i].get() + CClicks[i].get())
+        print(EMAILIMPRESSIONS[i].get())
+        print(EMAILCLICKS[i].get())
+        root.destroy
+        return EMAILIMPRESSIONS, EMAILCLICKS
+
 
     Button(root, text="Continue", command= lambda: calculate(), width=15, height=1).place(x=355,y=450)
-
 
 
     root.mainloop()
