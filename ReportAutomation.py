@@ -18,8 +18,6 @@ CLICK_VIEWS = []
 PAGES = []
 DATES = []
 UNIQUEDATES = []
-EMAILIMPRESSIONS = []
-EMAILCLICKS = []
 IMPORTNAMES = []
 IMPORTVIEWS = []
 IMPORTHOVERS = []
@@ -116,7 +114,7 @@ fileName = ""
 uniqueEmail = False
 folder_path = ""
 def excelReport():
-  global addEmail,addLink,addTweets,uniqueEmail,title,videoAds,totalsImpressions,totalsHovers,totalsClicks,fileName,folder_path,storyTitle,DATES,UNIQUEDATES, EMAILIMPRESSIONS, EMAILCLICKS
+  global addEmail,addLink,addTweets,uniqueEmail,title,videoAds,totalsImpressions,totalsHovers,totalsClicks,fileName,folder_path,storyTitle,DATES,UNIQUEDATES
   IMPORTNAMES.clear()
   IMPORTVIEWS.clear()
   IMPORTHOVERS.clear()
@@ -127,10 +125,7 @@ def excelReport():
   addTweets = tweetVar.get()
   email.delete(1.0, END)
   title = nameInput.get()
-  #for i in DATES:
-  #  EMAILIMPRESSIONS.append(tk.IntVar())
-  #  EMAILCLICKS.append(tk.IntVar())
-  #EMAILIMPRESSIONS, EMAILCLICKS = EmailData.main(DATES, EMAILIMPRESSIONS, EMAILCLICKS)
+  EMAILIMPRESSIONS, EMAILCLICKS = EmailData.main(DATES)
   videoAds, fileName = excelTab.createReport(title, IMPORTNAMES, IMPORTVIEWS, IMPORTHOVERS, IMPORTCLICKS, addEmail, addLink, addTweets, videoAds, folder_path, DATES, UNIQUEDATES, storyTitle, EMAILIMPRESSIONS, EMAILCLICKS)
   EMAILIMPRESSIONS = []
   EMAILCLICKS = []

@@ -154,14 +154,13 @@ def addEmailToSheet(sheet1, style, style2, x, DATES, UNIQUEDATES, EMAILIMPRESSIO
     z=3
 
     # Differentiates between given unique email or regular email to display correct output
-    print(EMAILIMPRESSIONS)
     for i, val in enumerate(DATES):
         if("Unique" in val):
             sheet1.write(x+z, 0, "{}".format(val), style)
         else:
             sheet1.write(x+z, 0, "{} Email".format(val), style)
-        #sheet1.write(x+z, 1, "{}".format(EMAILIMPRESSIONS[i]), style2)
-        #sheet1.write(x+z, 3, "{}".format(EMAILCLICKS[i]), style2)
+        sheet1.write(x+z, 1, "{}".format(EMAILIMPRESSIONS[i]), style2)
+        sheet1.write(x+z, 3, "{}".format(EMAILCLICKS[i]), style2)
         z = z+1
     
     sheet1.write(x+z, 0, "SUBTOTAL:", style)
